@@ -53,13 +53,13 @@ const posts = [
 
 let counter = posts.length;
 
-const getPosts = () => posts;
-
 const addPost = ({ title, body }) => {
   const post = new Post({ title, body });
   posts.push(post);
   return post;
 };
+
+const getPosts = () => posts;
 
 const getPostById = (id) => posts.find(item => item.id === id);
 
@@ -77,5 +77,5 @@ class Post {
 module.exports = {
   addPost,
   getPosts,
-  getPostById,
+  getPostById
 }
