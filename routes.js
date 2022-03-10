@@ -3,12 +3,7 @@ const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-const {
-  addPost,
-  getPosts,
-  getPostById
-} = require('./src/posts.js');
-
+const { addPost, getPosts, getPostById } = require('./src/posts.js');
 const { home, getPage, addPostForm } = require('./src/ui.js');
 
 // Home
