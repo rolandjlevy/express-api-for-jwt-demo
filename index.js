@@ -27,6 +27,13 @@ app.get('/', (req, res) => {
   `);
 });
 
+app.get('/not-found', (req, res) => {
+  res.send(`
+    <h2>Not Found</h2>
+    <p><a href="/">⬅ Home</a></p>
+  `);
+});
+
 app.get('/posts', (req, res) => {
   const data = formatJson(getPosts());
   res.status(200).send(data);
@@ -85,6 +92,9 @@ app.get('*', (req, res, next) => {
 // middleware for handing errors
 app.use((error, req, res, next) => {
   const { statusCode = 500 } = error;
+  if (statusCode === 302) {
+    return res.status(302).redirect('/not-found');
+  }
   res.status(statusCode).json({ error })
 });
 
