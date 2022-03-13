@@ -88,7 +88,7 @@ router.post('/login', (req, res, next) => {
     next(error);
   }
   const token = generateAccessToken(username);
-  res.cookie('jwttoken', token, { maxAge: 360 * 1000, httpOnly: true }).redirect(302, '/');
+  res.cookie('jwttoken', token, { maxAge: 360 * 1000, httpOnly: true }).redirect('/');
 });
 
 // JWT verification middleware
