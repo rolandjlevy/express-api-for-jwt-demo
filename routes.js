@@ -2,26 +2,35 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const moment = require('moment');
+const { v4: uuidv4 } = require('uuid');
 const secretKey = process.env.TOKEN_SECRET;
 const correctPassword = process.env.PASSWORD;
 
 router.use(cookieParser());
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
+router.use(express.static('public'));
+
+const Customer = require('./models/Customer.js');
+const Post = require('./models/Post.js');
 
 const { addPost, getPosts, getPostById } = require('./src/posts.js');
-const { home, getPage, addPostForm, loginForm } = require('./src/ui.js');
+const { getPage, displayPost } = require('./src/ui.js');
 
-// Home
+// Homepage
 router.get('/', (req, res) => {
   const loggedIn = req.cookies.jwttoken;
-  res.status(200).send(home(loggedIn));
+  res.status(200).sendFile('/index.html', { root: './public' });
+});
+
+router.get('/register', (req, res) => {
+  
 });
 
 // Login form
 router.get('/login', (req, res) => {
-  const page = getPage({ heading: 'Login', content: loginForm, json: false });
-  res.status(200).send(page);
+  res.status(200).sendFile('/login.html', { root: './public' });
 });
 
 const generateAccessToken = (username) => {
@@ -45,6 +54,7 @@ router.post('/login', (req, res, next) => {
     }
     next(error);
   }
+  // Add the user's id here
   const token = generateAccessToken(username);
   res.cookie('jwttoken', token, { maxAge: 360 * 1000, httpOnly: true }).redirect('/');
 });
@@ -70,44 +80,71 @@ router.get('/protected', verifyToken, (req, res) => {
 
 // Get all posts
 router.get('/posts', (req, res) => {
-  const page = getPage({ heading: 'View all posts', content: getPosts() });
-  res.status(200).send(page);
+  // eventually, only get the post for the current user, based on the customerId
+ Post.find({  })
+  .then(posts => {
+    let str = '<h1>View all users</h1>';
+    posts.forEach((post, index) => str += displayPost(post));
+    str += '<p><a href="/">⬅ Home</a></p>';
+    res.status(200).send(str);
+  })
+  .catch(error => {
+    error.statusCode = 400;
+    return next(error);
+  });
 });
 
 // Get a single post
-router.get('/posts/:id', (req, res, next) => {
-  const id = Number(req.params.id);
-  const post = getPostById(id);
-  if (!post) {
-    const error = {
-      message: `Post with ID ${id} not found`,
-      statusCode: 400
+router.get('/posts/:title', (req, res, next) => {
+  const { title } = req.params;
+  Post.findOne({ title })
+  .then(post => {
+    if (!post) {
+      const error = {
+        message: `Post ${title} not found`,
+        statusCode: 400
+      }
+      return next(error);
     }
-    return next(error);
-  }
-  const page = getPage({ heading: `Post ${id}`, content: post });
-  res.status(200).send(page);
+    const page = getPage({ 
+      heading: `Post: ${title}`, 
+      content: post 
+    });
+    res.status(200).send(page);
+  });
 });
 
 // Add a post form
 router.get('/add', (req, res) => {
-  const page = getPage({ heading: 'Add post', content: addPostForm, json: false });
-  res.status(200).send(page);
+  res.status(200).sendFile('/add-post.html', { root: './public' });
 });
 
 // Add a post result
-router.post('/add', (req, res, next) => {
-  const { title, body } = req.body;
-  if (!title || !body) {
+router.post('/add', async (req, res, next) => {
+  const { title, description } = req.body;
+  if (!title || !description) {
     const error = {
-      message: `Both title and body must be supplied`,
+      message: `Title and description must be supplied`,
       statusCode: 400
     }
     next(error);
   }
-  const addedPost = addPost({ title, body });
-  const page = getPage({ heading: 'Added', content: addedPost });
-  res.status(200).send(page);
+  // customerId needs to be logged-in user Id
+  // get the id from the jwt in the cookie
+  // Look into uuid-mongodb - see notes
+  const customerId = uuidv4();
+  try {
+    const newPost = new Post({ 
+      title, 
+      description, 
+      customerId 
+    });
+    const response = await newPost.save();
+    const message = `The post named '${title}' has been saved`;
+    res.status(200).send(message);
+  } catch (error) {
+    return next(error);
+  }
 });
 
 // wildcard route for 404s
