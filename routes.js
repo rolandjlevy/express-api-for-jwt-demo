@@ -63,9 +63,10 @@ router.post('/register', (req, res, next) => {
   Customer.findOne({ username })
   .then(customer => {
     if (customer) {
-      
-      const error = new Error(`Sorry, the username ${username} already exists.`);
-      error.statusCode = statusCode.unprocessable;
+      const error = {
+        message: `Sorry, the username ${username} already exists.`,
+        statusCode: statusCode.unprocessable
+      }
       return next(error);
     } else {
       const newUser = new Customer({ username, email, password });
@@ -93,11 +94,20 @@ router.get('/login', (req, res) => {
 // Login result with signed JWT token
 router.post('/login', (req, res, next) => {
   const { username, password } = req.body;
+  if (!username || !password) {
+    const error = {
+      message: `All fields are required.`,
+      statusCode: statusCode.badRequest
+    }
+    return next(error);
+  }
   Customer.findOne({ username })
     .then(customer => {
       if (!customer) {
-        const error = new Error(`Username does not exist`);
-        error.status = statusCode.unprocessable;
+        const error = {
+          message: `Username does not exist`,
+          statusCode: statusCode.unprocessable
+        }
         return next(error);
       } else {
         customer.comparePassword(password)
@@ -114,8 +124,10 @@ router.post('/login', (req, res, next) => {
             res.cookie('jwttoken', token, options);
             return res.status(200).send(page);
           } else {
-            const error = new Error(`Incorrect password.`);
-            error.statusCode = statusCode.unauthorized;
+            const error = {
+              message: `Incorrect password`,
+              statusCode: statusCode.unauthorized
+            }
             return next(error);
           }
         })
