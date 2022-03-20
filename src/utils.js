@@ -23,7 +23,15 @@ const displayPost = (post) => {
   </ul>`;
 };
 
+const statusCode = {
+  badRequest: 400,
+  unauthorized: 401,
+  unprocessable: 403,
+  notFound: 404
+}
+
 module.exports = { 
   getPage,
-  displayPost
+  displayPost,
+  statusCode
 };
