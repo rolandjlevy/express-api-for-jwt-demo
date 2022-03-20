@@ -16,19 +16,25 @@ const Post = require('./models/Post.js');
 const { addPost, getPosts, getPostById } = require('./src/posts.js');
 const { getPage, displayPost, statusCode } = require('./src/utils.js');
 
-const generateToken = (username) => {
-  return jwt.sign({ username }, secretKey, { expiresIn: '1h' });
+const generateToken = ({username, customerId }) => {
+  return jwt.sign({ username, customerId }, secretKey, { expiresIn: '1h' });
 }
 
 const verifyToken = (req, res, next) => {
   const jwttoken = req.cookies.jwttoken;
   try {
     const data = jwt.verify(jwttoken, secretKey);
-    req.username = data.username;
+    const { username, customerId } = data;
+    req.username = username;
+    req.customerId = customerId;
     return next();
   } catch (error) {
-    error.statusCode = statusCode.unprocessable;
-    return next(error);
+    const customError = {
+      name: 'Authorization error',
+      message: `Only logged-in users can access this page`,
+      statusCode: statusCode.unauthorized
+    }
+    return next(customError);
   }
 }
 
@@ -118,8 +124,8 @@ router.post('/login', (req, res, next) => {
               content: `${username}, you are now logged in. <a href="#">View your details</a>`, // href="/user/${customer._id}"
               json: false
             });
-            // Add the user's id here
-            const token = generateToken(username);
+            const customerId = customer._id;
+            const token = generateToken({ username, customerId });
             const options = { maxAge: 360 * 1000, httpOnly: true };
             res.cookie('jwttoken', token, options);
             return res.status(200).send(page);
@@ -141,12 +147,11 @@ router.post('/login', (req, res, next) => {
     });
 });
 
-router.get('/protected', verifyToken, (req, res, next) => {
+// Add a post form
+router.get('/add-post', verifyToken, (req, res) => {
   try {
     if (req.username) {
-      res.status(200).json({
-        message: `This is a protected route available to ${req.username}`
-      });
+      res.status(200).sendFile('/add-post.html', { root: './public' });
     }
   } catch (error) {
     error.statusCode = statusCode.unauthorized;
@@ -154,12 +159,42 @@ router.get('/protected', verifyToken, (req, res, next) => {
   }
 });
 
-// Get all posts
-router.get('/posts', (req, res) => {
-  // eventually, only get the post for the current user, based on the customerId
- Post.find({  })
+// Add a post result
+router.post('/add-post', verifyToken, async (req, res, next) => {
+  const { title, description } = req.body;
+  if (!title || !description) {
+    const error = {
+      message: `Title and description are required`,
+      statusCode: statusCode.badRequest
+    }
+    return next(error);
+  }
+  try {
+    if (req.username) {
+      try {
+        const newPost = new Post({ 
+          title, 
+          description,
+          customerId: req.customerId
+        });
+        const response = await newPost.save();
+        const message = `The post named '${title}' has been saved`;
+        res.status(200).send(message);
+      } catch (error) {
+        return next(error);
+      }
+    }
+  } catch (error) {
+    error.statusCode = statusCode.unauthorized;
+    return next(error);
+  }
+});
+
+// Get all posts for loggged-in customer
+router.get('/posts', verifyToken, (req, res) => {
+ Post.find({ customerId: req.customerId })
   .then(posts => {
-    let str = '<h1>View all users</h1>';
+    let str = `<h1>View ${req.username}'s posts </h1>`;
     posts.forEach(post => str += displayPost(post));
     str += '<p><a href="/">⬅ Home</a></p>';
     res.status(200).send(str);
@@ -190,63 +225,29 @@ router.get('/posts/:title', (req, res, next) => {
   });
 });
 
-// Add a post form
-router.get('/add-post', (req, res) => {
-  res.status(200).sendFile('/add-post.html', { root: './public' });
-});
-
-// Add a post result
-router.post('/add-post', async (req, res, next) => {
-  const { title, description } = req.body;
-  if (!title || !description) {
-    const error = {
-      message: `Title and description are required`,
-      statusCode: statusCode.badRequest
-    }
-    next(error);
-  }
-  // customerId needs to be from logged-in user's Id
-  // get the id from the jwt in the cookie
-  // Look into uuid-mongodb - see notes
-  const customerId = uuidv4();
-  // const customerId = req.cookies.jwttoken;
-  // const data = jwt.verify(token, "YOUR_SECRET_KEY");
-  // req.userId = data.id;
-  // req.userRole = data.role;
-
-  // const token = req.cookies.jwttoken;
-  // const data = jwt.verify(token, secretKey);
-  // console.log('req.cookies.jwttoken:', data)
-
-  try {
-    const postId = uuidv4();
-    const newPost = new Post({ 
-      title, 
-      description, 
-      customerId,
-      postId
-    });
-    const response = await newPost.save();
-    const message = `The post named '${title}' has been saved`;
-    res.status(200).send(message);
-  } catch (error) {
-    return next(error);
-  }
-});
-
 // wildcard route for 404s
 router.get('*', (req, res, next) => {
-  const error = { statusCode: 404 };
+  const error = { 
+    message: 'Page not found', 
+    statusCode: 404 
+  };
   next(error);
 });
 
 // middleware for error handing 
 router.use((error, req, res, next) => {
   const { statusCode = 500 } = error;
-  let page = getPage({ heading: 'Error', content: error });
+  let page = getPage({ 
+    heading: 'Error', 
+    content: error 
+  });
   if (statusCode === statusCode.notFound) {
     const content = `Unable to access ${req.originalUrl}`;
-    page = getPage({ heading: 'Page Not Found', content, json: false });
+    page = getPage({ 
+      heading: 'Page Not Found', 
+      content, 
+      json: false 
+    });
   }
   res.status(statusCode).send(page);
 });
