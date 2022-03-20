@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const CustomerSchema = new Schema(
   {
@@ -22,23 +23,20 @@ const CustomerSchema = new Schema(
 );
 
 // use mongoose's middleware to hash password before save
-CustomerSchema.pre('save', async (next) => {
+CustomerSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   try {
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(this.password, salt);
-    this.password = hashedPassword;
+    const salt = await bcrypt.genSaltSync(saltRounds);
+    const hash = await bcrypt.hashSync(this.password, salt);
+    this.password = hash;
     next();
   } catch (error) {
     next(error);
   }
 });
 
-CustomerSchema.methods.comparePassword = (password, callback) => {
-  bcrypt.compare(password, this.password, (err, isMatch) => {
-    if (err) return callback(err);
-    callback(null, isMatch);
-  });
+CustomerSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
 }
 
 module.exports = mongoose.model('Customer', CustomerSchema, 'customers');

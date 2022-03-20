@@ -10,7 +10,8 @@
 - https://www.youtube.com/watch?v=xBYr9DxDqyU
 - https://www.youtube.com/watch?v=mbsmsi7l3r4
 - https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
-
+- https://dev.to/franciscomendes10866/using-cookies-with-jwt-in-node-js-8fn
+- 
 ### Docs
 - jsonwebtoken: https://www.npmjs.com/package/jsonwebtoken
 - : https://www.npmjs.com/package/uuid-mongodb and https://github.com/cdimascio/uuid-mongodb

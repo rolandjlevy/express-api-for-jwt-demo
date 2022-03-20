@@ -7,7 +7,7 @@ const getPage = ({ heading, content, json = true }) => {
     body = json ? `<p>${formatJson(content)}</p>` : `<p>${content}</p>`;
   }
   return `
-    <h2>${heading}</h2>
+    <h1>${heading}</h1>
     ${body}
     <p><a href="/">⬅ Home</a></p>
   `;

@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 const secretKey = process.env.TOKEN_SECRET;
 const correctPassword = process.env.PASSWORD;
+const unauthorizedResponse = 401;
+const unprocessableEntity = 403;
 
 router.use(cookieParser());
 router.use(express.json());
@@ -20,12 +23,40 @@ const { getPage, displayPost } = require('./src/ui.js');
 
 // Homepage
 router.get('/', (req, res) => {
-  const loggedIn = req.cookies.jwttoken;
+  // const loggedIn = req.cookies.jwttoken;
   res.status(200).sendFile('/index.html', { root: './public' });
 });
 
+// Register form
 router.get('/register', (req, res) => {
-  
+  res.status(200).sendFile('/register.html', { root: './public' });
+});
+
+// Register form result
+router.post('/register', (req, res, next) => {
+  const { username, email, password } = req.body;
+  Customer.findOne({ username })
+  .then(customer => {
+    if (customer) {
+      const error = new Error(`Sorry, the username ${username} already exists.`);
+      error.statusCode = unprocessableEntity;
+      return next(error);
+    } else {
+      const newUser = new Customer({ username, email, password });
+      newUser.save()
+      .then(result => {
+        const page = getPage({ 
+          heading: 'Successful registration', 
+          content: `Welcome ${result.username}, thank you for registering.`,
+          json: false
+        });
+        return res.status(200).send(page);
+      })
+    }
+  })
+  .catch(err => {
+    return next(err);
+  });
 });
 
 // Login form
@@ -37,32 +68,49 @@ const generateAccessToken = (username) => {
   return jwt.sign({ username }, secretKey, { expiresIn: '1h' });
 }
 
-// Login with signed JWT token
+// Login result with signed JWT token
 router.post('/login', (req, res, next) => {
   const { username, password } = req.body;
-  let error;
-  if (!username || !password) {
-    error = {
-      message: `Both title and body must be supplied`,
-      statusCode: 400
-    }
-    next(error);
-  } else if (password !== correctPassword) {
-    error = {
-      message: `Password incorrect, please try again`,
-      statusCode: 403
-    }
-    next(error);
-  }
-  // Add the user's id here
-  const token = generateAccessToken(username);
-  res.cookie('jwttoken', token, { maxAge: 360 * 1000, httpOnly: true }).redirect('/');
+  Customer.findOne({ username })
+    .then(customer => {
+      if (!customer) {
+        const error = new Error(`Username does not exist`);
+        error.status = unprocessableEntity; // 403
+        return next(error);
+      } else {
+        customer.comparePassword(password)
+        .then(matched => {
+          if (matched) {
+            const page = getPage({ 
+              heading: 'Successful login', 
+              content: `${username}, you are now logged in. <a href="#">View your details</a>`, // href="/user/${customer._id}"
+              json: false
+            });
+            // Add the user's id here
+            const token = generateAccessToken(username);
+            const options = { maxAge: 360 * 1000, httpOnly: true };
+            res.cookie('jwttoken', token, options);
+            return res.status(200).send(page);
+          } else {
+            const error = new Error(`Incorrect password.`);
+            error.statusCode = unauthorizedResponse; // 401
+            return next(error);
+          }
+        })
+        .catch((error) => {
+          return next(error);
+        });
+      }
+    })
+    .catch((error) => {
+      return next(error);
+    });
 });
 
 // JWT verification middleware
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  console.log(authHeader);
+  // console.log(authHeader);
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.sendStatus(401);
   jwt.verify(token, secretKey, (err, data) => {
@@ -115,12 +163,12 @@ router.get('/posts/:title', (req, res, next) => {
 });
 
 // Add a post form
-router.get('/add', (req, res) => {
+router.get('/add-post', (req, res) => {
   res.status(200).sendFile('/add-post.html', { root: './public' });
 });
 
 // Add a post result
-router.post('/add', async (req, res, next) => {
+router.post('/add-post', async (req, res, next) => {
   const { title, description } = req.body;
   if (!title || !description) {
     const error = {
@@ -129,10 +177,19 @@ router.post('/add', async (req, res, next) => {
     }
     next(error);
   }
-  // customerId needs to be logged-in user Id
+  // customerId needs to be from logged-in user's Id
   // get the id from the jwt in the cookie
   // Look into uuid-mongodb - see notes
   const customerId = uuidv4();
+  // const customerId = req.cookies.jwttoken;
+  // const data = jwt.verify(token, "YOUR_SECRET_KEY");
+  // req.userId = data.id;
+  // req.userRole = data.role;
+
+  // const token = req.cookies.jwttoken;
+  // const data = jwt.verify(token, secretKey);
+  // console.log('req.cookies.jwttoken:', data)
+
   try {
     const newPost = new Post({ 
       title, 
