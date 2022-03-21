@@ -1,11 +1,12 @@
 # Notes
 
 ### Todo
+- Implement EJS
 
-- create registration and login for users.
+### Done
+- Create registration and login for users.
 - Each user has a customerId which maps to the posts collection
 - Logged-in customers can only see their own posts
-- Implement EJS
 
 ### JWT tutorials
 - https://www.youtube.com/watch?v=xBYr9DxDqyU
@@ -14,8 +15,9 @@
 - https://dev.to/franciscomendes10866/using-cookies-with-jwt-in-node-js-8fn
 - 
 ### Docs
-- jsonwebtoken: https://www.npmjs.com/package/jsonwebtoken
-- : https://www.npmjs.com/package/uuid-mongodb and https://github.com/cdimascio/uuid-mongodb
+- https://www.npmjs.com/package/jsonwebtoken
+- https://www.npmjs.com/package/uuid-mongodb 
+- https://github.com/cdimascio/uuid-mongodb
   
 ### Reference
 - https://www.section.io/engineering-education/how-to-build-authentication-api-with-jwt-token-in-nodejs/
