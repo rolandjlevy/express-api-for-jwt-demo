@@ -38,24 +38,17 @@ const verifyToken = (req, res, next) => {
   }
 }
 
-const getToken = (jwttoken) => {
-  if (jwttoken) {
-    return jwt.verify(jwttoken, secretKey);
-  }
-  return null;
-}
-
 // Homepage
 router.get('/', (req, res) => {
   res.status(200).sendFile('/index.html', { root: './public' });
 });
 
-// Register form
+// Registration form
 router.get('/register', (req, res) => {
   res.status(200).sendFile('/register.html', { root: './public' });
 });
 
-// Register form result
+// Registration form result
 router.post('/register', (req, res, next) => {
   const { username, email, password } = req.body;
   const errors = Object.values(req.body).some(item => !item.length);
@@ -121,11 +114,13 @@ router.post('/login', (req, res, next) => {
           if (matched) {
             const page = getPage({ 
               heading: 'Successful login', 
-              content: `${username}, you are now logged in. <a href="#">View your details</a>`, // href="/user/${customer._id}"
+              content: `${username}, you are now logged in. <a href="/customer/${customer._id}">View your details</a>`,
               json: false
             });
-            const customerId = customer._id;
-            const token = generateToken({ username, customerId });
+            const token = generateToken({ 
+              username, 
+              customerId: customer._id
+            });
             const options = { maxAge: 360 * 1000, httpOnly: true };
             res.cookie('jwttoken', token, options);
             return res.status(200).send(page);
@@ -144,6 +139,27 @@ router.post('/login', (req, res, next) => {
     })
     .catch((error) => {
       return next(error);
+    });
+});
+
+router.get('/customer/:customerId', (req, res, next) => {
+  const { customerId } = req.params;
+  Customer.findOne({ _id: customerId })
+    .then(customer => {
+      const { username, email, createdAt, ...rest } = customer;
+      const page = getPage({ 
+        heading: 'View customer details', 
+        content: { username, email, createdAt }
+      });
+      return res.status(200).send(page);
+    })
+    .catch((error) => {
+      const customError = {
+        name: 'Customer not found',
+        message: `Customer ${customerId} does not exists`,
+        statusCode: statusCode.notFound
+      }
+      return next(customError);
     });
 });
 
@@ -213,7 +229,7 @@ router.get('/posts/:title', (req, res, next) => {
     if (!post) {
       const error = {
         message: `Post ${title} not found`,
-        statusCode: 400
+        statusCode: statusCode.notFound
       }
       return next(error);
     }
@@ -229,7 +245,7 @@ router.get('/posts/:title', (req, res, next) => {
 router.get('*', (req, res, next) => {
   const error = { 
     message: 'Page not found', 
-    statusCode: 404 
+    statusCode: statusCode.notFound
   };
   next(error);
 });
