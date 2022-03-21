@@ -2,8 +2,9 @@
 
 ### TODO
 
-> create registration and login for users. Each user has a customerId which maps to the products collection
-> So when a user has logged in they can only see their products
+- create registration and login for users.
+- Each user has a customerId which maps to the posts collection
+- Logged-in customers can only see their own posts
 > Implement EJS
 
 ### JWT tutorials
