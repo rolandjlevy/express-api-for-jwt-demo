@@ -1,6 +1,8 @@
-# Login with JWTs
+# Authentication API
 
-> Using Express and MongoDb to create a login API. Users can register for an account then only add and view post when logged in. 
+> This authentication API enables users to register for an account then log in to gain access to pages for adding and viewing posts.
+
+> It's built with [Express](https://expressjs.com/) and [MongoDb Atlas](https://www.mongodb.com/atlas), and uses [bcrypt](https://www.npmjs.com/package/bcrypt) for authentication and [jsonwebtokens](https://www.npmjs.com/package/jsonwebtoken) for authorisation.
 
 ### Packages used
 - bcrypt

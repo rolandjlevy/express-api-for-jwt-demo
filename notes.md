@@ -1,6 +1,7 @@
 # Notes
 
 ### Todo
+- Add validation using Joi or express-validator
 - Implement EJS
 
 ### Done
@@ -13,6 +14,7 @@
 - https://www.youtube.com/watch?v=mbsmsi7l3r4
 - https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
 - https://dev.to/franciscomendes10866/using-cookies-with-jwt-in-node-js-8fn
+- https://www.bezkoder.com/node-js-express-login-mongodb/
 - 
 ### Docs
 - https://www.npmjs.com/package/jsonwebtoken
