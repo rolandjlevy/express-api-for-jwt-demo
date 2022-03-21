@@ -1,7 +1,7 @@
 # Notes
 
 ### Todo
-- Add validation using Joi or express-validator
+- Add form validation using [Joi](https://joi.dev/api/?v=17.6.0) or express-validator
 - Implement EJS
 
 ### Done
