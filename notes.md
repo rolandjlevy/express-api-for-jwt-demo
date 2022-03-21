@@ -1,11 +1,11 @@
 # Notes
 
-### TODO
+### Todo
 
 - create registration and login for users.
 - Each user has a customerId which maps to the posts collection
 - Logged-in customers can only see their own posts
-> Implement EJS
+- Implement EJS
 
 ### JWT tutorials
 - https://www.youtube.com/watch?v=xBYr9DxDqyU
