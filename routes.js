@@ -171,7 +171,6 @@ router.post('/add-post', validator('post'), verifyToken, async (req, res, next) 
           customerId: req.customerId
         });
         const response = await newPost.save();
-        console.log({response});
         const page = getPage({ 
           heading: 'Post saved', 
           content: `The post named '${title}' has been saved into your account`,
