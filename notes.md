@@ -29,6 +29,7 @@
 - https://replit.com/talk/ask/How-to-use-Mongodb-with-Replit/138624
 - https://www.geeksforgeeks.org/how-to-implement-jwt-authentication-in-express-js-app/
 - https://dev.to/tayfunakgc/middleware-based-joi-validation-in-expressjs-2po5
+- https://dev.to/franciscomendes10866/using-json-web-tokens-with-node-js-22c6
 
 ### Joi custom error messages
 - https://stackoverflow.com/questions/48720942/node-js-joi-how-to-display-a-custom-error-messages

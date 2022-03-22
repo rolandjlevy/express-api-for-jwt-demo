@@ -8,6 +8,7 @@
 - bcrypt
 - cookie-parser
 - express
+- joi
 - jsonwebtoken
 - moment
 - mongoose
