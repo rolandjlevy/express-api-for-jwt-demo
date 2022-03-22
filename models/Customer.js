@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Schema, model } = mongoose;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-const CustomerSchema = new Schema(
-  {
+const CustomerSchema = new Schema({
   username: {
     type: String,
     required: true,
@@ -39,4 +38,4 @@ CustomerSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 }
 
-module.exports = mongoose.model('Customer', CustomerSchema, 'customers');
+module.exports = model('Customer', CustomerSchema, 'customers');

@@ -193,7 +193,7 @@ router.get('/posts', verifyToken, (req, res) => {
   .then(posts => {
     let str = `<h1>View ${req.username}'s posts </h1>`;
     posts.forEach(post => str += displayPost(post));
-    str += '<p><a href="/">⬅ Home</a></p>';
+    str += '<p><a href="/">⌂ Home</a></p>';
     res.status(200).send(str);
   })
   .catch(error => {
@@ -216,7 +216,7 @@ router.get('/posts/:title', (req, res, next) => {
     }
     const page = getPage({ 
       heading: `Post: ${title}`, 
-      content: post 
+      content: post
     });
     res.status(200).send(page);
   });
@@ -236,14 +236,14 @@ router.use((error, req, res, next) => {
   const { statusCode = 500 } = error;
   let page = getPage({ 
     heading: 'Error', 
-    content: error 
+    content: error
   });
   if (statusCode === statusCode.notFound) {
     const content = `Unable to access ${req.originalUrl}`;
     page = getPage({ 
       heading: 'Page Not Found', 
       content, 
-      json: false 
+      json: false
     });
   }
   res.status(statusCode).send(page);

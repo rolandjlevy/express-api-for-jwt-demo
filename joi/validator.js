@@ -1,10 +1,11 @@
 const createHttpError = require('http-errors');
 const Joi = require('joi');
 const schemas = require('./schemas.js');
+const { statusCode } = require('../src/utils.js');
 
 const middleware = (validator) => {
   if (!schemas.hasOwnProperty(validator)) {
-    throw new Error(`'${validator}' validator does not exist`);
+    throw new Error(`The '${validator}' validator does not exist`);
   }
   return async function(req, res, next) {
     try {
@@ -13,10 +14,13 @@ const middleware = (validator) => {
       next();
     } catch (error) {
       if (error.isJoi) {
-        return next(createHttpError(422, { 
-          message: error.message
-        }));
-        next(createHttpError(500));
+        const errorObject = createHttpError(
+          statusCode.unprocessable, 
+          { message: error.message 
+        });
+        next(errorObject);
+      } else {
+        next(createHttpError(statusCode.unknown));
       }
     }
   }
