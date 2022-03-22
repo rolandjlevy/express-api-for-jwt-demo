@@ -20,6 +20,7 @@
 - https://www.npmjs.com/package/jsonwebtoken
 - https://www.npmjs.com/package/uuid-mongodb 
 - https://github.com/cdimascio/uuid-mongodb
+- https://joi.dev/api/?v=17.6.0
   
 ### Reference
 - https://www.section.io/engineering-education/how-to-build-authentication-api-with-jwt-token-in-nodejs/
@@ -27,3 +28,4 @@
 - https://replit.com/talk/ask/how-to-connect-a-mongodb-altas-to-expreesss/30203
 - https://replit.com/talk/ask/How-to-use-Mongodb-with-Replit/138624
 - https://www.geeksforgeeks.org/how-to-implement-jwt-authentication-in-express-js-app/
+- https://dev.to/tayfunakgc/middleware-based-joi-validation-in-expressjs-2po5

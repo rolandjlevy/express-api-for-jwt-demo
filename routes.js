@@ -12,8 +12,7 @@ router.use(express.static('public'));
 
 const Customer = require('./models/Customer.js');
 const Post = require('./models/Post.js');
-
-const { addPost, getPosts, getPostById } = require('./src/posts.js');
+const validator = require('./joi/validator.js');
 const { getPage, displayPost, statusCode } = require('./src/utils.js');
 
 const generateToken = ({username, customerId }) => {
@@ -49,16 +48,8 @@ router.get('/register', (req, res) => {
 });
 
 // Registration form result
-router.post('/register', (req, res, next) => {
+router.post('/register', validator('register'), (req, res, next) => {
   const { username, email, password } = req.body;
-  const errors = Object.values(req.body).some(item => !item.length);
-  if (errors) {
-    const error = {
-      message: `All fields are required.`,
-      statusCode: statusCode.badRequest
-    }
-    return next(error);
-  }
   Customer.findOne({ username })
   .then(customer => {
     if (customer) {
@@ -91,15 +82,8 @@ router.get('/login', (req, res) => {
 });
 
 // Login result with signed JWT token
-router.post('/login', (req, res, next) => {
+router.post('/login', validator('login'), (req, res, next) => {
   const { username, password } = req.body;
-  if (!username || !password) {
-    const error = {
-      message: `All fields are required.`,
-      statusCode: statusCode.badRequest
-    }
-    return next(error);
-  }
   Customer.findOne({ username })
     .then(customer => {
       if (!customer) {
@@ -176,15 +160,8 @@ router.get('/add-post', verifyToken, (req, res) => {
 });
 
 // Add a post result
-router.post('/add-post', verifyToken, async (req, res, next) => {
+router.post('/add-post', validator('post'), verifyToken, async (req, res, next) => {
   const { title, description } = req.body;
-  if (!title || !description) {
-    const error = {
-      message: `Title and description are required`,
-      statusCode: statusCode.badRequest
-    }
-    return next(error);
-  }
   try {
     if (req.username) {
       try {
