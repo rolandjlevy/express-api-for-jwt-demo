@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.TOKEN_SECRET;
+const { statusCode } = require('./utils');
 
 const generateToken = ({ username, customerId }) => {
   console.log('generateToken');
@@ -7,21 +8,23 @@ const generateToken = ({ username, customerId }) => {
 }
 
 const verifyToken = (req, res, next) => {
-  console.log('verifyToken');
   const jwttoken = req.cookies.jwttoken;
+  console.log('jwttoken:', jwttoken);
   try {
     const data = jwt.verify(jwttoken, secretKey);
     const { username, customerId } = data;
     req.username = username;
     req.customerId = customerId;
-    return next();
+    console.log('data:', data);
+    next();
   } catch (error) {
     const customError = {
       name: 'Authorization error',
       message: `Only logged-in users can access this page`,
       statusCode: statusCode.unauthorized
     }
-    return next(customError);
+    console.log('error:', error, customError);
+    next(customError);
   }
 }
 
