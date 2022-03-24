@@ -6,10 +6,7 @@ const getPage = ({ heading, content, json = true }) => {
   if (content) {
     body = json ? `<p>${formatJson(content)}</p>` : `<p>${content}</p>`;
   }
-  return `
-    <h1>${heading}</h1>${body}
-    <p><a href="/">⌂ Home</a></p>
-  `;
+  return `<h1>${heading}</h1>${body}<p><a href="/">⌂ Home</a></p>`;
 }
 
 const displayPost = ({ title, description, createdAt, _id }) => (

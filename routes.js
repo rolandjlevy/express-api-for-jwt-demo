@@ -1,41 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
-const secretKey = process.env.TOKEN_SECRET;
 
 router.use(cookieParser());
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 router.use(express.static('public'));
 
-const Customer = require('./models/Customer.js');
-const Post = require('./models/Post.js');
-const validator = require('./joi/validator.js');
-const { getPage, displayPost, statusCode } = require('./src/utils.js');
-
-const generateToken = ({username, customerId }) => {
-  return jwt.sign({ username, customerId }, secretKey, { expiresIn: '1h' });
-}
-
-const verifyToken = (req, res, next) => {
-  const jwttoken = req.cookies.jwttoken;
-  try {
-    const data = jwt.verify(jwttoken, secretKey);
-    const { username, customerId } = data;
-    req.username = username;
-    req.customerId = customerId;
-    return next();
-  } catch (error) {
-    const customError = {
-      name: 'Authorization error',
-      message: `Only logged-in users can access this page`,
-      statusCode: statusCode.unauthorized
-    }
-    return next(customError);
-  }
-}
+const Customer = require('./models/Customer');
+const Post = require('./models/Post');
+const { 
+  generateToken, 
+  verifyToken, 
+  getPage, 
+  displayPost, 
+  statusCode, 
+  validator 
+} = require('./src');
 
 // Homepage
 router.get('/', (req, res) => {
@@ -84,11 +66,13 @@ router.get('/login', (req, res) => {
 // Login result with signed JWT token
 router.post('/login', validator('login'), (req, res, next) => {
   const { username, password } = req.body;
+  console.log({ username, password })
   Customer.findOne({ username })
     .then(customer => {
       if (!customer) {
+        console.log('Username does not exist');
         const error = {
-          message: `Username does not exist`,
+          message: `Username ${customer.username} does not exist`,
           statusCode: statusCode.unprocessable
         }
         return next(error);
@@ -96,6 +80,7 @@ router.post('/login', validator('login'), (req, res, next) => {
         customer.comparePassword(password)
         .then(matched => {
           if (matched) {
+            console.log('matched');
             const page = getPage({ 
               heading: 'Successful login', 
               content: `${username}, you are now logged in. <a href="/customer/${customer._id}">View your details</a>`,
@@ -106,17 +91,20 @@ router.post('/login', validator('login'), (req, res, next) => {
               customerId: customer._id
             });
             const options = { maxAge: 360 * 1000, httpOnly: true };
+            console.log('token:', token);
             res.cookie('jwttoken', token, options);
             return res.status(200).send(page);
           } else {
+            console.log('Incorrect pass');
             const error = {
-              message: `Incorrect password`,
+              message: 'Incorrect password',
               statusCode: statusCode.unauthorized
             }
             return next(error);
           }
         })
         .catch((error) => {
+          console.log({ error });
           return next(error);
         });
       }

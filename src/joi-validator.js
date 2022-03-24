@@ -1,15 +1,15 @@
-const createHttpError = require('http-errors');
 const Joi = require('joi');
-const schemas = require('./schemas.js');
-const { statusCode } = require('../src/utils.js');
+const createHttpError = require('http-errors');
+const schemas = require('./joi-schemas.js');
+const { statusCode } = require('./utils.js');
 
-const middleware = (validator) => {
-  if (!schemas.hasOwnProperty(validator)) {
-    throw new Error(`The '${validator}' validator does not exist`);
+const validator = (name) => {
+  if (!schemas.hasOwnProperty(name)) {
+    throw new Error(`The '${name}' validator does not exist`);
   }
   return async function(req, res, next) {
     try {
-      const validated = await schemas[validator].validateAsync(req.body);
+      const validated = await schemas[name].validateAsync(req.body);
       req.body = validated;
       next();
     } catch (error) {
@@ -26,4 +26,4 @@ const middleware = (validator) => {
   }
 }
 
-module.exports = middleware; 
+module.exports = { validator }; 

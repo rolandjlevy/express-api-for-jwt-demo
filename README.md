@@ -7,6 +7,7 @@
 ### Packages used
 - bcrypt
 - cookie-parser
+- ejs
 - express
 - joi
 - jsonwebtoken
