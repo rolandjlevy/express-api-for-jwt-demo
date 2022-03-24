@@ -1,10 +1,10 @@
 # Authentication API
 
-> An authentication API which enables users to register then log in to gain access to pages for adding and viewing posts.
+> Register an account and log in to gain access to pages for adding and viewing posts.
 
-> It's built with [Express](https://expressjs.com/) and [MongoDb Atlas](https://www.mongodb.com/atlas), and uses [bcrypt](https://www.npmjs.com/package/bcrypt) for authentication and [jsonwebtokens](https://www.npmjs.com/package/jsonwebtoken) for authorization.
+> Built with [Express](https://expressjs.com/) and [MongoDb Atlas](https://www.mongodb.com/atlas). Uses [bcrypt](https://www.npmjs.com/package/bcrypt) for authentication and [jsonwebtokens](https://www.npmjs.com/package/jsonwebtoken) for authorization.
 
-### Packages used
+### Packages
 - bcrypt
 - cookie-parser
 - ejs
