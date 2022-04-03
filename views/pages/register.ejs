@@ -1,0 +1,20 @@
+  <%- include('../partials/head'); %>
+
+  <body>
+    <%- include('../partials/nav'); %>
+    <main class="container">
+      <header>
+        <h1><%= title %></h1>
+      </header>
+      <form method="post" action="/register">
+        <p><input type="text" name="username" placeholder="Username" /></p>
+        <p><input type="email" name="email" placeholder="Valid email" /></p>
+        <p><input type="password" name="password" placeholder="Password" /></p>
+        <p><input type="password" name="confirmedpassword" placeholder="Confirm password" /></p>
+        <p><input type="checkbox" id="toggler"><label for="toggler">Show Passwords</label></p>
+        <p><button type="submit">Register now</button></p>
+      </form>
+    </main>
+    <%- include('../partials/footer'); %>
+  </body>
+</html>

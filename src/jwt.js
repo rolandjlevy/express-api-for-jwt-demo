@@ -15,7 +15,6 @@ const verifyToken = (req, res, next) => {
     const { username, customerId } = data;
     req.username = username;
     req.customerId = customerId;
-    console.log('data:', data);
     next();
   } catch (error) {
     const customError = {
@@ -23,7 +22,6 @@ const verifyToken = (req, res, next) => {
       message: `Only logged-in users can access this page`,
       statusCode: statusCode.unauthorized
     }
-    console.log('error:', error, customError);
     next(customError);
   }
 }

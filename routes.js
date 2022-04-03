@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
+const ejs = require('ejs');
+const path = require('path');
 
 router.use(cookieParser());
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
-router.use(express.static('public'));
 
 const Customer = require('./models/Customer');
 const Post = require('./models/Post');
@@ -19,14 +20,29 @@ const {
   validator 
 } = require('./src');
 
+const navLinks = {
+	'/': 'Home',
+	'/register': 'Register',
+	'/login': 'Login',
+	'/add-post': 'Add Post',
+	'/posts': 'View Posts'
+}
+
+// all routes middleware
+router.use((req, res, next) => {
+  res.locals.currentPage = req.originalUrl;
+  res.locals.navLinks = navLinks;
+  next();
+});
+
 // Homepage
 router.get('/', (req, res) => {
-  res.status(200).sendFile('/index.html', { root: './public' });
+  res.status(200).render('pages/index', { title: 'Hello' });
 });
 
 // Registration form
 router.get('/register', (req, res) => {
-  res.status(200).sendFile('/register.html', { root: './public' });
+  res.status(200).render('pages/register', { title: 'Register new user' });
 });
 
 // Registration form result
@@ -60,7 +76,7 @@ router.post('/register', validator('register'), (req, res, next) => {
 
 // Login form
 router.get('/login', (req, res) => {
-  res.status(200).sendFile('/login.html', { root: './public' });
+  res.status(200).render('pages/login', { title: 'Login' });
 });
 
 // Login result with signed JWT token
@@ -139,7 +155,7 @@ router.get('/customer/:customerId', (req, res, next) => {
 router.get('/add-post', verifyToken, (req, res) => {
   try {
     if (req.username) {
-      res.status(200).sendFile('/add-post.html', { root: './public' });
+      res.status(200).render('pages/add-post', { title: 'Add Post' });
     }
   } catch (error) {
     error.statusCode = statusCode.unauthorized;

@@ -1,5 +1,5 @@
 module.exports = {
+  ...require('./joi'),
   ...require('./jwt'),
   ...require('./utils'),
-  ...require('./joi-validator'),
 };

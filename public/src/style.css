@@ -1,0 +1,47 @@
+.container {
+  margin-top:75px;
+}
+
+.icon-large {
+  font-size: 2rem;
+}
+
+.colour-mid-grey {
+  color: #525266;
+}
+
+.form-signin input[type="text"].form-control,
+.form-signin input[type="password"].form-control {
+  margin-bottom: 15px;
+}
+
+.form-check.password {
+  padding-left: 0;
+  margin-bottom: 15px;
+}
+
+.form-check .form-check-input.password-toggler {
+  float: none;
+  margin-left: 0;
+}
+
+m-tb-10, m-bt-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.m-r-10 {
+  margin-right: 10px;
+}
+
+.m-l-10 {
+  margin-left: 10px;
+}
+
+.m-l-5 {
+  margin-left: 5px;
+}
+
+.m-b-15 {
+  margin-bottom: 15px;
+}
