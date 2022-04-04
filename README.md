@@ -1,4 +1,4 @@
-# Authentication API
+# Authentication App
 
 > Register an account and log in to gain access to pages for adding and viewing posts.
 

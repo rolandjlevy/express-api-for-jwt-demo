@@ -3,7 +3,6 @@ const router = express.Router();
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
 const ejs = require('ejs');
-const path = require('path');
 
 router.use(cookieParser());
 router.use(express.json());
@@ -37,7 +36,7 @@ router.use((req, res, next) => {
 
 // Homepage
 router.get('/', (req, res) => {
-  res.status(200).render('pages/index', { title: 'Hello' });
+  res.status(200).render('pages/index', { title: 'Authentication App' });
 });
 
 // Registration form

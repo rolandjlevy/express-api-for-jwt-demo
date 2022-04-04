@@ -1,20 +1,49 @@
   <%- include('../partials/head'); %>
 
-  <body>
+  <body class="text-center">
     <%- include('../partials/nav'); %>
-    <main class="container">
+    <main class="container form-signin">
       <header>
-        <h1><%= title %></h1>
+        <i class="fa-solid fa-right-to-bracket icon-large colour-mid-grey m-b-10"></i>
+        <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
       </header>
+      
       <form method="post" action="/register">
-        <p><input type="text" name="username" placeholder="Username" /></p>
-        <p><input type="email" name="email" placeholder="Valid email" /></p>
-        <p><input type="password" name="password" placeholder="Password" /></p>
-        <p><input type="password" name="confirmedpassword" placeholder="Confirm password" /></p>
-        <p><input type="checkbox" id="toggler"><label for="toggler">Show Passwords</label></p>
-        <p><button type="submit">Register now</button></p>
+        
+        <div class="form-floating">
+          <input type="text" class="form-control" name="username" id="floatingUsername" placeholder="User name">
+          <label for="floatingUsername">User name</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" class="form-control" name="email" id="floatingEmail" placeholder="Email">
+          <label for="floatingEmail">Email</label>
+        </div>
+
+      <div class="form-floating">  
+        <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+
+      <div class="form-floating">  
+        <input type="password" name="confirmedpassword" class="form-control" id="floatingConfirmPassword" placeholder="Password">
+        <label for="floatingConfirmPassword">Confirm Password</label>
+      </div>
+        
+      <div class="form-check password m-b-15">
+        <input class="form-check-input password-toggler" type="checkbox" value="" id="toggler">
+        <label class="form-check-label m-l-5" for="toggler">Show Password</label>
+      </div>
+
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+        
       </form>
+
     </main>
     <%- include('../partials/footer'); %>
   </body>
 </html>
+        
+
+        
+
+     

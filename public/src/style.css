@@ -2,6 +2,11 @@
   margin-top:75px;
 }
 
+label {
+  user-select: none;
+  cursor: pointer;
+}
+
 .icon-large {
   font-size: 2rem;
 }
@@ -40,6 +45,10 @@ m-tb-10, m-bt-10 {
 
 .m-l-5 {
   margin-left: 5px;
+}
+
+.m-b-10 {
+  margin-bottom: 10px;
 }
 
 .m-b-15 {
