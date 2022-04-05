@@ -1,8 +1,8 @@
 # Authentication App
 
-> Register an account and log in to gain access to pages for adding and viewing posts.
+> Register your account and log in to gain access to pages for adding and viewing posts.
 
-> Built with [Express](https://expressjs.com/) and [MongoDb Atlas](https://www.mongodb.com/atlas). Uses [bcrypt](https://www.npmjs.com/package/bcrypt) for authentication and [jsonwebtokens](https://www.npmjs.com/package/jsonwebtoken) for authorization.
+> Built with [Express](https://expressjs.com/), [EJS](https://ejs.co/), [MongoDb Atlas](https://www.mongodb.com/atlas) and [Bootstrap](https://getbootstrap.com/). Uses [bcrypt](https://www.npmjs.com/package/bcrypt) for authentication and [JSON web tokens](https://www.npmjs.com/package/jsonwebtoken) for authorization.
 
 ### Packages
 - bcrypt

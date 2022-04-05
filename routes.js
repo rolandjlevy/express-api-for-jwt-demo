@@ -243,14 +243,15 @@ router.use((error, req, res, next) => {
   const { statusCode = 500 } = error;
   let page = { 
     title: 'Error', 
-    content: error
+    content: error, 
+    json: true
   };
   if (statusCode === statusCode.notFound) {
     const content = `Unable to access ${req.originalUrl}`;
     page = { 
       title: 'Page Not Found', 
       content, 
-      json: false
+      json: true
     };
   }
   console.log('4. /////// error:', error);

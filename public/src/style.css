@@ -1,5 +1,5 @@
 body {
-  background: #eee !important;
+  background: rgb(228, 227, 237) !important;
 }
 
 .container {
@@ -37,9 +37,11 @@ main.form-signin {
 /* colours */
 /*/////////*/
 
-.btn.btn-primary {
+.btn.btn-primary,
+input.form-check-input:checked {
   background-color: rgb(79 70 229);
   border-color: rgb(79 70 229);
+  font-weight: 600;
 }
 
 .btn.btn-primary:hover {
@@ -47,10 +49,24 @@ main.form-signin {
   border-color: rgb(67 56 202);
 }
 
+.btn.btn-secondary {
+  background-color: rgb(217, 215, 249);
+  border-color: rgb(217, 215, 249);
+  color: rgb(41, 29, 175);
+  font-weight: 600;
+}
+
+.btn.btn-secondary:hover {
+  background-color: rgb(200, 196, 253);
+  border-color: rgb(200, 196, 253);
+  color: rgb(41, 29, 175);
+}
+
 .form-check > label {
   color: rgb(79 70 229);
   user-select: none;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .form-check > label:hover {
@@ -58,7 +74,11 @@ main.form-signin {
 }
 
 .icon-colour {
-  color: rgb(79 70 229 / 0.75);
+  color: rgb(79 70 229 / 1);
+}
+
+.svg-large {
+  width: 3rem;
 }
 
 /*//////////////////*/
@@ -68,6 +88,10 @@ main.form-signin {
 m-tb-10, m-bt-10 {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.m-r-5 {
+  margin-right: 5px;
 }
 
 .m-r-10 {
@@ -88,4 +112,8 @@ m-tb-10, m-bt-10 {
 
 .m-b-15 {
   margin-bottom: 15px;
+}
+
+.m-b-20 {
+  margin-bottom: 20px;
 }

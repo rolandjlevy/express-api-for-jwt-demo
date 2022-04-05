@@ -1,21 +1,28 @@
   <%- include('../partials/head'); %>
 
-  <body>
+  <body class="text-center">
     <main class="container">
       <section class="p-5 mb-4 bg-light rounded-3">
         <div class="container-fluid py-5">
           <header>
-            <h1 class="display-6 fw-bold"><%= title %></h1>
+            <img class="svg-large m-b-10" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+            <h1 class="display-6 fw-bold m-b-20"><%= title %></h1>
           </header>
-          <p class="col-md-8 fs-5">Register an account and log in to gain access to pages for adding and viewing posts.</p>
-          <p class="col-md-8">
-            <a href="/register" class="btn btn-primary btn-sm">Register</a>
-            <a href="/login" class="btn btn-primary btn-sm">Log in</a>
-          </p>
-          <p class="col-md-8">
-            <a href="/add-post" class="btn btn-secondary btn-sm">Add a post</a>
-            <a href="/posts" class="btn btn-secondary btn-sm">View posts</a>
-          </p>
+          <section class="row m-b-20">
+            <p class="col-12 col-md-6 fs-6 text-center text-md-end">Register your account and use your login to gain access to the pages which allow you to add new posts and view all of your posts.</p>
+            <p class="col-12 col-md-6 fs-6 text-center text-md-start">Built with Express, EJS,  MongoDb Atlas and Bootstrap. Uses bcrypt for authentication and JSON web tokens for authorization.</p>
+          </section>
+
+          <section class="row">
+            <p class="col-12">
+              <a href="/register" class="btn btn-primary btn-md m-r-5">Register</a>
+              <a href="/login" class="btn btn-primary btn-md">Log in</a>
+            </p>
+            <p class="col-12">
+              <a href="/add-post" class="btn btn-secondary btn-md m-r-5">Add a post</a>
+              <a href="/posts" class="btn btn-secondary btn-md">View posts</a>
+            </p>
+          </section>
         </div>
       </section>
     </main>
