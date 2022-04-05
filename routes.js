@@ -3,6 +3,7 @@ const router = express.Router();
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
 const ejs = require('ejs');
+const moment = require('moment');
 
 router.use(cookieParser());
 router.use(express.json());
@@ -196,10 +197,8 @@ router.post('/add-post', validator('post'), verifyToken, async (req, res, next) 
 router.get('/posts', verifyToken, (req, res) => {
  Post.find({ customerId: req.customerId })
   .then(posts => {
-    let str = `<h1>View ${req.username}'s posts </h1>`;
-    posts.forEach(post => str += displayPost(post));
-    str += '<p><a href="/">⌂ Home</a></p>';
-    res.status(200).send(str);
+    const title = `View ${req.username}'s posts`;
+    res.status(200).render('pages/view-posts', { title, posts, moment });
   })
   .catch(error => {
     error.statusCode = statusCode.badRequest;

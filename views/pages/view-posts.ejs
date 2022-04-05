@@ -1,0 +1,29 @@
+<%- include('../partials/head'); %>
+
+  <body class="text-center">
+    <%- include('../partials/nav'); %>
+  
+    <main class="container form-signin">
+      <header>
+        <i class="fa-solid fa-circle-info icon-large icon-colour m-b-10"></i>
+        <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
+      </header>
+
+        <% 
+          posts.map(post => {
+          const { title, description, createdAt, _id } = post;
+        %>
+          <ul class="single-post text-start">    
+            <li class="fw-bold">Title: <%= title %></li>
+            <li>Description: <%= description %></li>
+            <li>Registered: <%= moment(createdAt).format('Do MMMM, YYYY'); %></li>
+            <li>Post ID: <%= _id %></li>
+          </ul>
+        <% 
+          });
+        %>
+     
+    </main>
+    <%- include('../partials/footer'); %>
+  </body>
+</html>

@@ -73,6 +73,13 @@ input.form-check-input:checked {
   color: rgb(99 102 241);
 }
 
+.single-post {
+  background: white;
+  padding: 10px 10px 10px 20px;
+  border-radius: 10px;
+  list-style: none;
+}
+
 .icon-colour {
   color: rgb(79 70 229 / 1);
 }
