@@ -6,17 +6,16 @@ body {
   margin-top:75px;
 }
 
-label {
-  user-select: none;
-  cursor: pointer;
-}
-
 .icon-large {
   font-size: 2rem;
 }
 
-.colour-mid-grey {
-  color: #a5a5b1;
+header > h1.fw-normal {
+  font-weight: 700 !important;
+}
+
+main.form-signin {
+  max-width: 400px;
 }
 
 .form-signin input[type="text"].form-control,
@@ -33,6 +32,38 @@ label {
   float: none;
   margin-left: 0;
 }
+
+/*/////////*/
+/* colours */
+/*/////////*/
+
+.btn.btn-primary {
+  background-color: rgb(79 70 229);
+  border-color: rgb(79 70 229);
+}
+
+.btn.btn-primary:hover {
+  background-color: rgb(67 56 202);
+  border-color: rgb(67 56 202);
+}
+
+.form-check > label {
+  color: rgb(79 70 229);
+  user-select: none;
+  cursor: pointer;
+}
+
+.form-check > label:hover {
+  color: rgb(99 102 241);
+}
+
+.icon-colour {
+  color: rgb(79 70 229 / 0.75);
+}
+
+/*//////////////////*/
+/* margin / padding */
+/*//////////////////*/
 
 m-tb-10, m-bt-10 {
   margin-top: 10px;

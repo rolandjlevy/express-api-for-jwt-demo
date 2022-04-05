@@ -178,7 +178,7 @@ router.post('/add-post', validator('post'), verifyToken, async (req, res, next) 
         const response = await newPost.save();
         router.page = { 
           title: 'Post saved', 
-          content: `The post named '${title}' has been saved into your account`,
+          content: `The post named "${title}" has been saved to your account`,
           json: false
         };
         res.redirect('/info');
