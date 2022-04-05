@@ -1,13 +1,4 @@
 const moment = require('moment');
-const formatJson = (obj) => `<pre><code>${JSON.stringify(obj, null, 2)}</code></pre>`;
-
-const getPage = ({ heading, content, json = true }) => {
-  let body = '';
-  if (content) {
-    body = json ? `<p>${formatJson(content)}</p>` : `<p>${content}</p>`;
-  }
-  return `<h1>${heading}</h1>${body}<p><a href="/">⌂ Home</a></p>`;
-}
 
 const displayPost = ({ title, description, createdAt, _id }) => (
   `<ul>
@@ -26,8 +17,7 @@ const statusCode = {
   unknown: 500
 }
 
-module.exports = { 
-  getPage,
+module.exports = {
   displayPost,
   statusCode
 };

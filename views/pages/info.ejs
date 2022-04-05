@@ -1,4 +1,13 @@
-  <%- include('../partials/head'); %>
+<%
+  
+const format = (content, json) => {
+  const contentStringified = `<pre><code>${JSON.stringify(content, null, 2)}</code></pre>`;
+  return json ? contentStringified : content;
+}
+
+%>
+
+<%- include('../partials/head'); %>
 
   <body class="text-center">
     <%- include('../partials/nav'); %>
@@ -9,8 +18,7 @@
         <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
       </header>
 
-      <p><%- content %></p>
-      <p><%= json %></p>
+      <p><%- format(content, json) %></p>
      
     </main>
     <%- include('../partials/footer'); %>

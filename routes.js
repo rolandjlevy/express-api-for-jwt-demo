@@ -13,7 +13,6 @@ const Post = require('./models/Post');
 const { 
   generateToken, 
   verifyToken, 
-  getPage, 
   displayPost, 
   statusCode, 
   validator 
@@ -65,17 +64,17 @@ router.post('/register', validator('register'), (req, res, next) => {
       const newUser = new Customer({ username, email, password });
       newUser.save()
       .then(result => {
-        const page = getPage({ 
-          heading: 'Successful registration', 
+        router.page = { 
+          title: 'Successful registration', 
           content: `Welcome ${result.username}, thank you for registering.`,
           json: false
-        });
-        return res.status(200).send(page);
+        };
+        res.redirect('/info');
       })
     }
   })
-  .catch(err => {
-    return next(err);
+  .catch((error) => {
+    return next(error);
   });
 });
 
@@ -99,18 +98,17 @@ router.post('/login', validator('login'), (req, res, next) => {
         customer.comparePassword(password)
         .then(matched => {
           if (matched) {
-            const page = { 
-              title: 'Successful login', 
-              content: `${username}, you are now logged in. <a href="/customer/${customer._id}">View your details</a>`,
-              json: false
-            };
             const token = generateToken({ 
               username, 
               customerId: customer._id
             });
             const options = { maxAge: 360 * 1000, httpOnly: true };
             res.cookie('jwttoken', token, options);
-            router.page = page;
+            router.page = { 
+              title: 'Successful login', 
+              content: `${username}, you are now logged in. <a href="/customer/${customer._id}">View your details</a>`,
+              json: false
+            };
             res.redirect('/info');
           } else {
             const error = {
@@ -137,11 +135,12 @@ router.get('/customer/:customerId', (req, res, next) => {
   Customer.findOne({ _id: customerId })
     .then(customer => {
       const { username, email, createdAt, ...rest } = customer;
-      const page = getPage({ 
-        heading: 'View customer details', 
-        content: { username, email, createdAt }
-      });
-      return res.status(200).send(page);
+      router.page = { 
+        title: 'View customer details', 
+        content: { username, email, createdAt },
+        json: true
+      };
+      res.redirect('/info');
     })
     .catch((error) => {
       const customError = {
@@ -177,12 +176,12 @@ router.post('/add-post', validator('post'), verifyToken, async (req, res, next) 
           customerId: req.customerId
         });
         const response = await newPost.save();
-        const page = getPage({ 
-          heading: 'Post saved', 
+        router.page = { 
+          title: 'Post saved', 
           content: `The post named '${title}' has been saved into your account`,
           json: false
-        });
-        return res.status(200).send(page);
+        };
+        res.redirect('/info');
       } catch (error) {
         return next(error);
       }
@@ -220,11 +219,12 @@ router.get('/posts/:title', (req, res, next) => {
       }
       return next(error);
     }
-    const page = getPage({ 
-      heading: `Post: ${title}`, 
-      content: post
-    });
-    res.status(200).send(page);
+    router.page = {
+      title: `Post: ${title}`, 
+      content: post,
+      json: true
+    }
+    res.redirect('/info');
   });
 });
 
@@ -241,20 +241,21 @@ router.get('*', (req, res, next) => {
 // middleware for error handing 
 router.use((error, req, res, next) => {
   const { statusCode = 500 } = error;
-  let page = getPage({ 
-    heading: 'Error', 
+  let page = { 
+    title: 'Error', 
     content: error
-  });
+  };
   if (statusCode === statusCode.notFound) {
     const content = `Unable to access ${req.originalUrl}`;
-    page = getPage({ 
-      heading: 'Page Not Found', 
+    page = { 
+      title: 'Page Not Found', 
       content, 
       json: false
-    });
+    };
   }
   console.log('4. /////// error:', error);
-  res.status(statusCode).send(page);
+  router.page = page;
+  res.redirect('/info');
 });
 
 module.exports = router;
