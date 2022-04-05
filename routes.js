@@ -34,6 +34,12 @@ router.use((req, res, next) => {
   next();
 });
 
+// Info page
+router.get('/info', (req, res) => {
+  const { title, content, json } = router.page;
+  res.status(200).render('pages/info', { title, content, json });
+});
+
 // Homepage
 router.get('/', (req, res) => {
   res.status(200).render('pages/index', { title: 'Authentication App' });
@@ -81,11 +87,9 @@ router.get('/login', (req, res) => {
 // Login result with signed JWT token
 router.post('/login', validator('login'), (req, res, next) => {
   const { username, password } = req.body;
-  console.log({ username, password })
   Customer.findOne({ username })
     .then(customer => {
       if (!customer) {
-        console.log('Username does not exist');
         const error = {
           message: `Username ${customer.username} does not exist`,
           statusCode: statusCode.unprocessable
@@ -95,22 +99,20 @@ router.post('/login', validator('login'), (req, res, next) => {
         customer.comparePassword(password)
         .then(matched => {
           if (matched) {
-            console.log('matched');
-            const page = getPage({ 
-              heading: 'Successful login', 
+            const page = { 
+              title: 'Successful login', 
               content: `${username}, you are now logged in. <a href="/customer/${customer._id}">View your details</a>`,
               json: false
-            });
+            };
             const token = generateToken({ 
               username, 
               customerId: customer._id
             });
             const options = { maxAge: 360 * 1000, httpOnly: true };
-            console.log('token:', token);
             res.cookie('jwttoken', token, options);
-            return res.status(200).send(page);
+            router.page = page;
+            res.redirect('/info');
           } else {
-            console.log('Incorrect pass');
             const error = {
               message: 'Incorrect password',
               statusCode: statusCode.unauthorized
@@ -119,12 +121,13 @@ router.post('/login', validator('login'), (req, res, next) => {
           }
         })
         .catch((error) => {
-          console.log({ error });
+          console.log('1. /////// error:', error);
           return next(error);
         });
       }
     })
     .catch((error) => {
+      console.log('2. /////// error:', error);
       return next(error);
     });
 });
@@ -231,6 +234,7 @@ router.get('*', (req, res, next) => {
     message: 'Page not found', 
     statusCode: statusCode.notFound
   };
+  console.log('3. /////// error:', error);
   next(error);
 });
 
@@ -249,6 +253,7 @@ router.use((error, req, res, next) => {
       json: false
     });
   }
+  console.log('4. /////// error:', error);
   res.status(statusCode).send(page);
 });
 

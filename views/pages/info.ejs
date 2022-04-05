@@ -1,0 +1,18 @@
+  <%- include('../partials/head'); %>
+
+  <body class="text-center">
+    <%- include('../partials/nav'); %>
+  
+    <main class="container form-signin">
+      <header>
+        <i class="fa-solid fa-circle-info icon-large colour-mid-grey m-b-10"></i>
+        <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
+      </header>
+
+      <p><%- content %></p>
+      <p><%= json %></p>
+     
+    </main>
+    <%- include('../partials/footer'); %>
+  </body>
+</html>

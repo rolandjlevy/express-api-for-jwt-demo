@@ -1,3 +1,7 @@
+body {
+  background: #eee !important;
+}
+
 .container {
   margin-top:75px;
 }
@@ -12,7 +16,7 @@ label {
 }
 
 .colour-mid-grey {
-  color: #525266;
+  color: #a5a5b1;
 }
 
 .form-signin input[type="text"].form-control,
