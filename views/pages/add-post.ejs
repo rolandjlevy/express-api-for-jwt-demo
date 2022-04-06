@@ -5,17 +5,17 @@
         
     <main class="container form-signin">
       <header>
-        <i class="fa-solid fa-circle-plus icon-large icon-colour m-b-10"></i>
+        <i class="fa-solid fa-circle-plus icon-large icon-colour mb-3"></i>
         <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
       </header>
       <form method="post" action="/add-post">
-      <div class="form-floating">
+      <div class="form-floating mb-3">
         <input type="text" class="form-control" name="title" id="floatingTitle" placeholder="title">
         <label for="floatingTitle">Title</label>
       </div>
-      <div class="form-floating">
-        <input type="text" class="form-control" name="description" id="floatingTitle" placeholder="description">
-        <label for="floatingTitle">Description</label>
+      <div class="form-floating mb-3">
+        <textarea class="form-control" name="description" id="floatingTextarea" rows="4" placeholder="description"></textarea>
+        <label for="floatingTextarea" class="form-label">Description</label>
       </div>
         
       <button class="w-100 btn btn-lg btn-primary" type="submit">Add Post</button>

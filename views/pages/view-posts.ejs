@@ -5,17 +5,17 @@
   
     <main class="container form-signin">
       <header>
-        <i class="fa-solid fa-circle-info icon-large icon-colour m-b-10"></i>
+        <i class="fa-solid fa-circle-info icon-large icon-colour mb-3"></i>
         <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
       </header>
-
+      <section class="posts-container">
         <% 
           if (posts.length > 0) {
             posts.map(post => {
             const { title, description, createdAt, _id } = post;
             const deleteLink = `/delete-post/${_id}`;
           %>
-          <div class="card single-post text-start">
+          <div class="card single-post text-start mb-2">
             <div class="card-body">
               <h5 class="card-title"><%= title %></h5>
               <h6 class="card-subtitle mb-2 text-muted">Created: <%= moment(createdAt).format('Do MMMM, YYYY, h:mm:ss a'); %></h6>
@@ -31,7 +31,7 @@
         <% 
           }
         %>
-     
+     </section>
     </main>
     <%- include('../partials/footer'); %>
   </body>

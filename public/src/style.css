@@ -2,10 +2,6 @@ body {
   background: rgb(228, 227, 237) !important;
 }
 
-.container {
-  margin-top:75px;
-}
-
 .icon-large {
   font-size: 2rem;
 }
@@ -14,17 +10,18 @@ header > h1.fw-normal {
   font-weight: 700 !important;
 }
 
+.posts-container {
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
 /*///////*/
 /* forms */
 /*///////*/
 
 main.form-signin {
   max-width: 400px;
-}
-
-.form-signin input[type="text"].form-control,
-.form-signin input[type="password"].form-control {
-  margin-bottom: 15px;
+  margin-top: 50px;
 }
 
 .form-check.password {
@@ -35,6 +32,21 @@ main.form-signin {
 .form-check .form-check-input.password-toggler {
   float: none;
   margin-left: 0;
+}
+
+.form-check > label {
+  color: rgb(79 70 229);
+  user-select: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.form-check > label:hover {
+  color: rgb(99 102 241);
+}
+
+.form-floating > textarea.form-control {
+  height: auto;
 }
 
 /*/////////*/
@@ -66,17 +78,6 @@ input.form-check-input:checked {
   color: rgb(41, 29, 175);
 }
 
-.form-check > label {
-  color: rgb(79 70 229);
-  user-select: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.form-check > label:hover {
-  color: rgb(99 102 241);
-}
-
 .single-post-custom {
   background: white;
   padding: 10px 10px 10px 20px;
@@ -96,11 +97,6 @@ input.form-check-input:checked {
 /* margin / padding */
 /*//////////////////*/
 
-m-tb-10, m-bt-10 {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 .m-r-5 {
   margin-right: 5px;
 }
@@ -115,16 +111,4 @@ m-tb-10, m-bt-10 {
 
 .m-l-5 {
   margin-left: 5px;
-}
-
-.m-b-10 {
-  margin-bottom: 10px;
-}
-
-.m-b-15 {
-  margin-bottom: 15px;
-}
-
-.m-b-20 {
-  margin-bottom: 20px;
 }

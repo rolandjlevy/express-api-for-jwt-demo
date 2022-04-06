@@ -13,8 +13,7 @@ const Customer = require('./models/Customer');
 const Post = require('./models/Post');
 const { 
   generateToken, 
-  verifyToken, 
-  displayPost, 
+  verifyToken,  
   statusCode, 
   validator 
 } = require('./src');
@@ -103,7 +102,8 @@ router.post('/login', validator('login'), (req, res, next) => {
               username, 
               customerId: customer._id
             });
-            const options = { maxAge: 360 * 1000, httpOnly: true };
+            const maxAge = 6 * 60 * 60 * 1000; // 6 hours
+            const options = { maxAge, httpOnly: true };
             res.cookie('jwttoken', token, options);
             router.page = { 
               title: 'Successful login', 
