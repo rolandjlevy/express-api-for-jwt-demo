@@ -6,6 +6,7 @@
 
 ### Packages
 - bcrypt
+- bootstrap
 - cookie-parser
 - ejs
 - express

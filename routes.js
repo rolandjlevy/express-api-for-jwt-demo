@@ -24,7 +24,7 @@ const navLinks = {
 	'/register': 'Register',
 	'/login': 'Login',
 	'/add-post': 'Add Post',
-	'/posts': 'View Posts'
+	'/view-posts': 'View Posts'
 }
 
 // all routes middleware
@@ -107,7 +107,7 @@ router.post('/login', validator('login'), (req, res, next) => {
             res.cookie('jwttoken', token, options);
             router.page = { 
               title: 'Successful login', 
-              content: `${username}, you are now logged in. <a href="/customer/${customer._id}">View your details</a>`,
+              content: `${username}, you are now logged in. You can now <a href="/add-post">Add</a>, <a href="/view-posts">View</a>, and Delete posts. You can also <a href="/customer/${customer._id}">view your details</a>`,
               json: false
             };
             res.redirect('/info');
@@ -193,8 +193,32 @@ router.post('/add-post', validator('post'), verifyToken, async (req, res, next) 
   }
 });
 
+// Delete a post
+router.get('/delete-post/:_id', verifyToken, async (req, res) => {
+  const { _id } = req.params;
+  try {
+    const postExists = await Post.countDocuments({ _id });
+    if (_id && postExists) {
+      try {
+        await Post.deleteOne({ _id });
+        router.page = { 
+          title: 'Post deleted', 
+          content: `The post has been deleted from your account`,
+          json: false
+        };
+        res.redirect('/info');
+      } catch (error) {
+        return next(error);
+      }
+    }
+  } catch (error) {
+    error.statusCode = statusCode.unauthorized;
+    return next(error);
+  }
+});
+
 // Get all posts for loggged-in customer
-router.get('/posts', verifyToken, (req, res) => {
+router.get('/view-posts', verifyToken, (req, res) => {
  Post.find({ customerId: req.customerId })
   .then(posts => {
     const title = `View ${req.username}'s posts`;

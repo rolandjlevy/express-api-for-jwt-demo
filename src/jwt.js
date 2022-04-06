@@ -4,12 +4,11 @@ const { statusCode } = require('./utils');
 
 const generateToken = ({ username, customerId }) => {
   console.log('generateToken');
-  return jwt.sign({ username, customerId }, secretKey, { expiresIn: '1h' });
+  return jwt.sign({ username, customerId }, secretKey, { expiresIn: '6h' });
 }
 
 const verifyToken = (req, res, next) => {
   const jwttoken = req.cookies.jwttoken;
-  console.log('jwttoken:', jwttoken);
   try {
     const data = jwt.verify(jwttoken, secretKey);
     const { username, customerId } = data;

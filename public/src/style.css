@@ -14,6 +14,10 @@ header > h1.fw-normal {
   font-weight: 700 !important;
 }
 
+/*///////*/
+/* forms */
+/*///////*/
+
 main.form-signin {
   max-width: 400px;
 }
@@ -73,7 +77,7 @@ input.form-check-input:checked {
   color: rgb(99 102 241);
 }
 
-.single-post {
+.single-post-custom {
   background: white;
   padding: 10px 10px 10px 20px;
   border-radius: 10px;

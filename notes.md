@@ -1,11 +1,11 @@
 # Notes
 
 ### Todo
-- JavaScript in scripts not working
-- Improve UI using https://tailwindui.com/preview
+- add bootstrap card component to view posts page: https://getbootstrap.com/docs/4.0/components/card/
+- Improve UI using Bootstrap
 
 ### Done
-- Create registration and login for users.
+- Create registration and login for users
 - Each user has a customerId which maps to the posts collection
 - Logged-in customers can only see their own posts
 - Implement EJS

@@ -10,17 +10,26 @@
       </header>
 
         <% 
-          posts.map(post => {
-          const { title, description, createdAt, _id } = post;
-        %>
-          <ul class="single-post text-start">    
-            <li class="fw-bold">Title: <%= title %></li>
-            <li>Description: <%= description %></li>
-            <li>Registered: <%= moment(createdAt).format('Do MMMM, YYYY'); %></li>
-            <li>Post ID: <%= _id %></li>
-          </ul>
+          if (posts.length > 0) {
+            posts.map(post => {
+            const { title, description, createdAt, _id } = post;
+            const deleteLink = `/delete-post/${_id}`;
+          %>
+          <div class="card single-post text-start">
+            <div class="card-body">
+              <h5 class="card-title"><%= title %></h5>
+              <h6 class="card-subtitle mb-2 text-muted">Created: <%= moment(createdAt).format('Do MMMM, YYYY, h:mm:ss a'); %></h6>
+              <p class="card-text">Description: <%= description %></p>
+              <i class="fa-solid fa-trash-can text-muted"></i> <a href="<%= deleteLink %>">Delete this post</a>
+            </div>
+          </div>
+          <% 
+            });
+          } else {
+          %>
+            <p>No posts to display</p>
         <% 
-          });
+          }
         %>
      
     </main>
