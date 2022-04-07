@@ -1,8 +1,7 @@
 # Notes
 
 ### Todo
-- add bootstrap card component to view posts page: https://getbootstrap.com/docs/4.0/components/card/
-- Improve UI using Bootstrap
+- Login / Logout link toggle in nav
 
 ### Done
 - Create registration and login for users
@@ -10,6 +9,8 @@
 - Logged-in customers can only see their own posts
 - Implement EJS
 - Add form validation using [Joi](https://joi.dev/api/?v=17.6.0) or express-validator
+- add bootstrap card component to view posts page: https://getbootstrap.com/docs/4.0/components/card/
+- Improve UI using Bootstrap
 
 ### JWT tutorials
 - https://www.youtube.com/watch?v=xBYr9DxDqyU
@@ -17,7 +18,8 @@
 - https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
 - https://dev.to/franciscomendes10866/using-cookies-with-jwt-in-node-js-8fn
 - https://www.bezkoder.com/node-js-express-login-mongodb/
-- 
+- https://www.youtube.com/watch?v=jQn74jB5dg0
+  
 ### Docs
 - https://www.npmjs.com/package/jsonwebtoken
 - https://www.npmjs.com/package/uuid-mongodb 

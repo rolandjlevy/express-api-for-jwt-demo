@@ -21,7 +21,8 @@ const {
 const navLinks = {
 	'/': 'Home',
 	'/register': 'Register',
-	'/login': 'Login',
+	'/login': 'Log in',
+	'/logout': 'Log out',
 	'/add-post': 'Add Post',
 	'/view-posts': 'View Posts'
 }
@@ -129,6 +130,18 @@ router.post('/login', validator('login'), (req, res, next) => {
       console.log('2. /////// error:', error);
       return next(error);
     });
+});
+
+router.get('/logout', (req, res) => {
+  const maxAge = 1;
+  const options = { maxAge, httpOnly: true };
+  res.cookie('jwttoken', '', options);
+  router.page = { 
+    title: 'Logged out', 
+    content: `You have logged out`,
+    json: false
+  };
+  res.redirect('/info');
 });
 
 router.get('/customer/:customerId', (req, res, next) => {
