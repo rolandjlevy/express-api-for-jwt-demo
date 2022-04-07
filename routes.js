@@ -116,7 +116,7 @@ router.post('/login', validator('login'), (req, res, next) => {
             res.cookie('jwttoken', token, options);
             router.page = { 
               title: 'Successful login', 
-              content: `${username}, you are now logged in. You can now <a href="/add-post">Add</a>, <a href="/view-posts">View</a>, and Delete posts. You can also <a href="/customer/${customer._id}">view your details</a>`,
+              content: `${username}, you are now logged in. You can <a href="/add-post">Add</a>, <a href="/view-posts">View</a>, and Delete posts. You can also <a href="/customer/${customer._id}">view your details</a>`,
               json: false
             };
             res.redirect('/info');
