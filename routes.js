@@ -3,7 +3,8 @@ const router = express.Router();
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
 const ejs = require('ejs');
-const moment = require('moment');
+const moment = require('moment-timezone');
+moment.tz.setDefault('Europe/London');
 
 router.use(cookieParser());
 router.use(express.json());
@@ -13,22 +14,23 @@ const Customer = require('./models/Customer');
 const Post = require('./models/Post');
 const { 
   generateToken, 
-  verifyToken,  
-  statusCode, 
+  verifyToken, 
+  isLoggedIn,
+  statusCode,
+  navLinksDefault,
   validator 
 } = require('./src');
 
-const navLinks = {
-	'/': 'Home',
-	'/register': 'Register',
-	'/login': 'Log in',
-	'/logout': 'Log out',
-	'/add-post': 'Add Post',
-	'/view-posts': 'View Posts'
-}
-
 // all routes middleware
 router.use((req, res, next) => {
+  const jwttoken = req.cookies.jwttoken;
+  let navLinks = {...navLinksDefault};
+  if (jwttoken && isLoggedIn(jwttoken)) {
+    delete navLinks['/register'];
+    delete navLinks['/login'];
+  } else {
+    delete navLinks['/logout'];
+  }
   res.locals.currentPage = req.originalUrl;
   res.locals.navLinks = navLinks;
   next();
@@ -84,6 +86,13 @@ router.get('/login', (req, res) => {
   res.status(200).render('pages/login', { title: 'Login' });
 });
 
+const getMaxHours = () => {
+  const cookieMaxHours = Number(process.env.COOKIE_MAX_HOURS);
+  const oneHour = 60 * 60 * 1000;
+  const daylightSavingsHour = moment().isDST() ? 1 : 0;
+  return (cookieMaxHours + daylightSavingsHour) * oneHour;
+}
+
 // Login result with signed JWT token
 router.post('/login', validator('login'), (req, res, next) => {
   const { username, password } = req.body;
@@ -103,8 +112,7 @@ router.post('/login', validator('login'), (req, res, next) => {
               username, 
               customerId: customer._id
             });
-            const maxAge = 6 * 60 * 60 * 1000; // 6 hours
-            const options = { maxAge, httpOnly: true };
+            const options = { maxAge: getMaxHours(), httpOnly: true };
             res.cookie('jwttoken', token, options);
             router.page = { 
               title: 'Successful login', 

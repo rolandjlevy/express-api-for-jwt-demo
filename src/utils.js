@@ -7,6 +7,16 @@ const statusCode = {
   unknown: 500
 }
 
+const navLinksDefault = {
+	'/': 'Home',
+	'/register': 'Register',
+	'/login': 'Log in',
+	'/logout': 'Log out',
+	'/add-post': 'Add Post',
+	'/view-posts': 'View Posts'
+}
+
 module.exports = {
-  statusCode
+  statusCode,
+  navLinksDefault
 };

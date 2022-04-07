@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.TOKEN_SECRET;
+const cookieMaxHours = process.env.COOKIE_MAX_HOURS;
 const { statusCode } = require('./utils');
 
 const generateToken = ({ username, customerId }) => {
-  return jwt.sign({ username, customerId }, secretKey, { expiresIn: '6h' });
+  return jwt.sign({ username, customerId }, secretKey, { expiresIn: `${cookieMaxHours}h` });
 }
 
 const verifyToken = (req, res, next) => {
@@ -24,7 +25,13 @@ const verifyToken = (req, res, next) => {
   }
 }
 
+const isLoggedIn = (jwttoken = '') => {
+  const data = jwt.verify(jwttoken, secretKey);
+  return data && data.username || false;
+}
+
 module.exports = { 
   generateToken,
-  verifyToken
+  verifyToken,
+  isLoggedIn
 };
