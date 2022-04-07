@@ -1,33 +1,29 @@
   <%- include('../partials/head'); %>
 
-  <body class="text-center">
-    <main class="container">
-      <section class="p-5 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-5">
-          
-          <header>
-            <img class="svg-large mb-3" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
-            <h1 class="display-6 fw-bold mb-4"><%= title %></h1>
-          </header>
-          
-          <section class="row mb-4">
-            <p class="col-12 col-md-6 fs-6 text-center text-md-end">Register your account and use your login to gain access to the pages which allow you to add new posts and view all of your posts.</p>
-            <p class="col-12 col-md-6 fs-6 text-center text-md-start">Built with Express, EJS,  MongoDb Atlas and Bootstrap. Uses bcrypt for authentication and JSON web tokens for authorization.</p>
-          </section>
+    <section class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5">
+        
+        <header>
+          <img class="svg-large mb-3" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+          <h1 class="display-6 fw-bold mb-4"><%= title %></h1>
+        </header>
+        
+        <section class="row mb-4">
+          <p class="col-12 col-md-6 fs-6 text-center text-md-end">Register your account and use your login to gain access to the pages which allow you to add new posts and view all of your posts.</p>
+          <p class="col-12 col-md-6 fs-6 text-center text-md-start">Built with Express, EJS,  MongoDb Atlas and Bootstrap. Uses bcrypt for authentication and JSON web tokens for authorization.</p>
+        </section>
 
-          <section class="row">
-            <p class="col-12">
-              <a href="/register" class="btn btn-primary btn-md m-r-5">Register</a>
-              <a href="/login" class="btn btn-primary btn-md">Log in</a>
-            </p>
-            <p class="col-12">
-              <a href="/add-post" class="btn btn-secondary btn-md m-r-5">Add a post</a>
-              <a href="/view-posts" class="btn btn-secondary btn-md">View posts</a>
-            </p>
-          </section>
-        </div>
-      </section>
-    </main>
-    <%- include('../partials/footer'); %>
-  </body>
-</html>
+        <section class="row">
+          <p class="col-12">
+            <a href="/register" class="btn btn-primary btn-md m-r-5">Register</a>
+            <a href="/login" class="btn btn-primary btn-md">Log in</a>
+          </p>
+          <p class="col-12">
+            <a href="/add-post" class="btn btn-secondary btn-md m-r-5">Add a post</a>
+            <a href="/view-posts" class="btn btn-secondary btn-md">View posts</a>
+          </p>
+        </section>
+      </div>
+    </section>
+    
+  <%- include('../partials/footer'); %>

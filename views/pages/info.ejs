@@ -7,20 +7,18 @@ const format = (content, json) => {
 
 %>
 
-<%- include('../partials/head'); %>
+  <%- include('../partials/head'); %>
 
-  <body class="text-center">
-    <%- include('../partials/nav'); %>
+  <%- include('../partials/nav'); %>
   
-    <main class="container form-signin">
-      <header>
-        <i class="fa-solid fa-circle-info icon-large icon-colour mb-3"></i>
-        <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
-      </header>
+  <main class="container form-signin">
+    <header>
+      <i class="fa-solid fa-circle-info icon-large icon-colour mb-3"></i>
+      <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
+    </header>
 
-      <p><%- format(content, json) %></p>
-     
-    </main>
-    <%- include('../partials/footer'); %>
-  </body>
-</html>
+    <p><%- format(content, json) %></p>
+   
+  </main>
+    
+  <%- include('../partials/footer'); %>

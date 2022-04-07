@@ -1,32 +1,31 @@
   <%- include('../partials/head'); %>
 
-  <body class="text-center">
-    <%- include('../partials/nav'); %>
+  <%- include('../partials/nav'); %>
         
     <main class="container form-signin">
+      
       <header>
         <i class="fa-solid fa-right-to-bracket icon-large icon-colour mb-3"></i>
         <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
       </header>
       <form method="post" action="/login">
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" name="username" id="floatingUsername" placeholder="User name">
-        <label for="floatingUsername">User name</label>
-      </div>
-      <div class="form-floating mb-3">  
-        <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
-        <label for="floatingPassword">Password</label>
-      </div>
-        
-      <div class="form-check password mb-3">
-        <input class="form-check-input password-toggler" type="checkbox" value="" id="toggler">
-        <label class="form-check-label m-l-5" for="toggler">Show Password</label>
-      </div>
-        
-      <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button>
-    </form>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" name="username" id="floatingUsername" placeholder="User name">
+          <label for="floatingUsername">User name</label>
+        </div>
+        <div class="form-floating mb-3">  
+          <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Password</label>
+        </div>
+          
+        <div class="form-check password mb-3">
+          <input class="form-check-input password-toggler" type="checkbox" value="" id="toggler">
+          <label class="form-check-label m-l-5" for="toggler">Show Password</label>
+        </div>
+          
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Log in</button>
+      </form>
      
     </main>
-    <%- include('../partials/footer'); %>
-  </body>
-</html>
+    
+  <%- include('../partials/footer'); %>
