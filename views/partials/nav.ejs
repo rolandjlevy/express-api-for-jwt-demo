@@ -2,8 +2,9 @@
   const links = Object.entries(navLinks).map(([key, value]) => {
   const active = currentPage === key ? ' active' : '';
     return `
-      <li class="nav-item">
-        <a class="nav-link${active}" href="${key}">${value}</a>
+      <li class="nav-item d-flex flex-row justify-content-center align-items-center">
+        <i class="fa-solid ${value.icon} icon-small${active}"></i>
+        <a class="nav-link${active}" href="${key}">${value.label}</a>
       </li>`;
     }).join('');
 %>

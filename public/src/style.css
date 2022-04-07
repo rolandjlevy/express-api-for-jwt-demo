@@ -1,9 +1,5 @@
 body {
-  background: rgb(228, 227, 237) !important;
-}
-
-.icon-large {
-  font-size: 2rem;
+  background: rgb(234, 233, 241) !important;
 }
 
 header > h1.fw-normal {
@@ -87,6 +83,28 @@ input.form-check-input:checked {
 
 .icon-colour {
   color: rgb(79 70 229 / 1);
+}
+
+.icon-large {
+  font-size: 2rem;
+}
+
+.icon-small {
+  color: #ffffff8c;
+  padding-left: 0;
+  padding-right: 10px;
+  font-size: 1rem;
+}
+
+.icon-small.active {
+  color: #fff;
+}
+
+@media (min-width: 768px) { 
+  .icon-small {
+    padding-left: 10px;
+    padding-right:0;
+  }
 }
 
 .svg-large {
