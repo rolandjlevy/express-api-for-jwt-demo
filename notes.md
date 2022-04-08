@@ -1,16 +1,15 @@
 # Notes
 
 ### Todo
-- Login / Logout link toggle in nav
 
 ### Done
+- Login / Logout link toggle in nav
 - Create registration and login for users
 - Each user has a customerId which maps to the posts collection
 - Logged-in customers can only see their own posts
 - Implement EJS
-- Add form validation using [Joi](https://joi.dev/api/?v=17.6.0) or express-validator
-- add bootstrap card component to view posts page: https://getbootstrap.com/docs/4.0/components/card/
-- Improve UI using Bootstrap
+- Add form validation using [Joi](https://joi.dev/api/?v=17.6.0) or express-validator/
+- Improve UI with Bootstrap
 
 ### JWT tutorials
 - https://www.youtube.com/watch?v=xBYr9DxDqyU
@@ -19,6 +18,7 @@
 - https://dev.to/franciscomendes10866/using-cookies-with-jwt-in-node-js-8fn
 - https://www.bezkoder.com/node-js-express-login-mongodb/
 - https://www.youtube.com/watch?v=jQn74jB5dg0
+- https://www.section.io/engineering-education/how-to-build-authentication-api-with-jwt-token-in-nodejs/
   
 ### Docs
 - https://www.npmjs.com/package/jsonwebtoken

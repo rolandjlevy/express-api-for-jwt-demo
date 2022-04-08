@@ -1,8 +1,12 @@
 <%
   
-const format = (content, json) => {
-  const contentStringified = `<pre><code>${JSON.stringify(content, null, 2)}</code></pre>`;
-  return json ? contentStringified : content;
+const formatList = (content, json) => {
+  let str = `<ul class="d-flex flex-column">`;
+  Object.entries(content).forEach(([key, value]) => {
+    str += `<li class="text-start"><strong>${key}</strong>: ${value}</li>`;
+  });
+  str += '</ul>';
+  return json ? str : content;
 }
 
 %>
@@ -17,7 +21,7 @@ const format = (content, json) => {
       <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
     </header>
 
-    <p><%- format(content, json) %></p>
+    <p><%- formatList(content, json) %></p>
    
   </main>
     

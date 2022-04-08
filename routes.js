@@ -18,6 +18,7 @@ const {
   isLoggedIn,
   statusCode,
   navLinksDefault,
+  getMaxHours,
   validator 
 } = require('./src');
 
@@ -36,15 +37,15 @@ router.use((req, res, next) => {
   next();
 });
 
+// Homepage
+router.get('/', (req, res) => {
+  res.status(200).render('pages/index', { title: 'Blogging App' });
+});
+
 // Info page
 router.get('/info', (req, res) => {
   const { title, content, json } = router.page;
   res.status(200).render('pages/info', { title, content, json });
-});
-
-// Homepage
-router.get('/', (req, res) => {
-  res.status(200).render('pages/index', { title: 'Authentication App' });
 });
 
 // Registration form
@@ -86,13 +87,6 @@ router.get('/login', (req, res) => {
   res.status(200).render('pages/login', { title: 'Login' });
 });
 
-const getMaxHours = () => {
-  const cookieMaxHours = Number(process.env.COOKIE_MAX_HOURS);
-  const oneHour = 60 * 60 * 1000;
-  const daylightSavingsHour = moment().isDST() ? 1 : 0;
-  return (cookieMaxHours + daylightSavingsHour) * oneHour;
-}
-
 // Login result with signed JWT token
 router.post('/login', validator('login'), (req, res, next) => {
   const { username, password } = req.body;
@@ -123,7 +117,8 @@ router.post('/login', validator('login'), (req, res, next) => {
           } else {
             const error = {
               message: 'Incorrect password',
-              statusCode: statusCode.unauthorized
+              statusCode: statusCode.unauthorized,
+              json: true
             }
             return next(error);
           }
@@ -259,7 +254,8 @@ router.get('/posts/:title', (req, res, next) => {
     if (!post) {
       const error = {
         message: `Post ${title} not found`,
-        statusCode: statusCode.notFound
+        statusCode: statusCode.notFound,
+        json: true
       }
       return next(error);
     }
