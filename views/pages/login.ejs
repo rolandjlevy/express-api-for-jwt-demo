@@ -7,10 +7,13 @@
       <header>
         <i class="fa-solid fa-right-to-bracket icon-large icon-colour mb-3"></i>
         <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
+        <%  if (username) { %>
+          <p>Welcome <%= username %>, thank you for registering. You can now log in.</p>
+        <% } %>
       </header>
       <form method="post" action="/login">
         <div class="form-floating mb-3">
-          <input type="text" class="form-control" name="username" id="floatingUsername" placeholder="User name">
+          <input type="text" class="form-control" name="username" id="floatingUsername" placeholder="User name" value="<%= username %>">
           <label for="floatingUsername">User name</label>
         </div>
         <div class="form-floating mb-3">  

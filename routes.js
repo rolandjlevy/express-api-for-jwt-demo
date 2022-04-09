@@ -38,8 +38,7 @@ router.use((req, res, next) => {
 });
 
 // Homepage
-router.get('/', (req, res) => {
-  res.status(200).render('pages/index', { title: 'Blogging App' });
+router.get('/', (req, res) => {  res.status(200).render('pages/index', { title: 'Blogging App' });
 });
 
 // Info page
@@ -68,12 +67,7 @@ router.post('/register', validator('register'), (req, res, next) => {
       const newUser = new Customer({ username, email, password });
       newUser.save()
       .then(result => {
-        router.page = { 
-          title: 'Successful registration', 
-          content: `Welcome ${result.username}, thank you for registering.`,
-          json: false
-        };
-        res.redirect('/info');
+        res.redirect(`/login?username=${result.username}`);
       })
     }
   })
@@ -84,7 +78,8 @@ router.post('/register', validator('register'), (req, res, next) => {
 
 // Login form
 router.get('/login', (req, res) => {
-  res.status(200).render('pages/login', { title: 'Login' });
+  const { username = null } = req.query;
+  res.status(200).render('pages/login', { title: 'Login', username });
 });
 
 // Login result with signed JWT token

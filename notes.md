@@ -2,6 +2,8 @@
 
 ### Todo
 
+- when registering, on success log out the previous user and log in new user. Go to login page and pre fill the fields
+
 ### Done
 - Login / Logout link toggle in nav
 - Create registration and login for users
