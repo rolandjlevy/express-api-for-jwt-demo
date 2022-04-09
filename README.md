@@ -1,6 +1,6 @@
 # Authentication App
 
-> Register an account and log in to access to pages for adding, viewing, editing and deleting posts. Built with [Express](https://expressjs.com/), [EJS](https://ejs.co/), [MongoDb Atlas](https://www.mongodb.com/atlas) and [Bootstrap](https://getbootstrap.com/). Uses [bcrypt](https://www.npmjs.com/package/bcrypt) for authentication and [JSON web tokens](https://www.npmjs.com/package/jsonwebtoken) for authorization.
+> Register an account and log in to access to pages for adding, viewing, updating and deleting posts. Built with [Express](https://expressjs.com/), [EJS](https://ejs.co/), [MongoDb Atlas](https://www.mongodb.com/atlas) and [Bootstrap](https://getbootstrap.com/). Uses [bcrypt](https://www.npmjs.com/package/bcrypt) for authentication and [JSON web tokens](https://www.npmjs.com/package/jsonwebtoken) for authorization.
 
 ### Links
 - [Live demo](https://express-login-api-with-jwt.rolandjlevy.repl.co/)

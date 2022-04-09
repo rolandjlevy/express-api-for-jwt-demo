@@ -13,14 +13,14 @@
             posts.map(post => {
             const { title, description, createdAt, _id } = post;
             const deleteLink = `/delete-post/${_id}`;
-            const editLink = `/edit-post/${_id}`;
+            const updateLink = `/update-post/${_id}`;
           %>
           <div class="card single-post text-start mb-2">
             <div class="card-body">
               <h5 class="card-title"><%= title %></h5>
               <h6 class="card-subtitle mb-2 text-muted">Created: <%= moment(createdAt).format('Do MMMM, YYYY, h:mm:ss a'); %></h6>
               <p class="card-text">Description: <%= description %></p>
-              <i class="fa-solid fa-pen-to-square text-muted"></i> <a href="<%= editLink %>">Edit post</a>
+              <i class="fa-solid fa-pen-to-square text-muted"></i> <a href="<%= updateLink %>">Update post</a>
               <i class="fa-solid fa-trash-can text-muted m-l-10"></i> <a href="<%= deleteLink %>">Delete post</a>
             </div>
           </div>

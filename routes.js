@@ -105,7 +105,7 @@ router.post('/login', validator('login'), (req, res, next) => {
             res.cookie('jwttoken', token, options);
             router.page = { 
               title: 'Successful login', 
-              content: `${username}, you are now logged in. You can <a href="/add-post">Add</a>, <a href="/view-posts">View</a>, Edit and Delete posts. You can also <a href="/customer/${customer._id}">view your details</a>`,
+              content: `${username}, you are now logged in. You can <a href="/add-post">Add</a>, <a href="/view-posts">View</a>, Update and Delete posts. You can also <a href="/customer/${customer._id}">view your details</a>`,
               json: false
             };
             res.redirect('/info');
@@ -204,8 +204,8 @@ router.post('/add-post', validator('post'), verifyToken, async (req, res, next) 
   }
 });
 
-// Edit a post
-router.get('/edit-post/:_id', verifyToken, async (req, res) => {
+// Update a post
+router.get('/update-post/:_id', verifyToken, async (req, res) => {
   const { _id } = req.params;
   try {
     const postExists = await Post.countDocuments({ _id });
@@ -221,9 +221,9 @@ router.get('/edit-post/:_id', verifyToken, async (req, res) => {
             }
             return next(error);
           }
-          res.status(200).render('pages/edit-post', { 
+          res.status(200).render('pages/update-post', { 
             _id,
-            title: 'Edit Post',
+            title: 'Update Post',
             postTitle: post.title, 
             postDescription: post.description
           });
@@ -241,8 +241,8 @@ router.get('/edit-post/:_id', verifyToken, async (req, res) => {
   }
 });
 
-// Edit a post result
-router.post('/edit-post', validator('post'), verifyToken, async (req, res, next) => {
+// Update a post result
+router.post('/update-post', validator('post'), verifyToken, async (req, res, next) => {
   const { _id, title, description } = req.body;
   try {
     if (req.username) {

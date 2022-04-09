@@ -1,9 +1,8 @@
 # Notes
 
 ### Todo
-
+- when registering, on success try to log out the previous user and log in new user. Go to login page and pre fill the fields
 - for /posts/:title endpoint, use _id instead of title 
-- when registering, on success log out the previous user and log in new user. Go to login page and pre fill the fields
 
 ### Done
 - allow users to edit posts
