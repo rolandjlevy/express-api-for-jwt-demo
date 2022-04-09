@@ -73,8 +73,9 @@ const login = Joi.object({
 });
 
 const post = Joi.object({
+  _id: Joi.string(),
   title: Joi.string().min(6).required(),
-  description: Joi.string().min(6).required()
+  description: Joi.string().min(6).required(),
 });
 
 const schemas = {

@@ -1,0 +1,24 @@
+    <%- include('../partials/head'); %>
+
+    <%- include('../partials/nav'); %>
+        
+    <main class="container form-signin">
+      <header>
+        <i class="fa-solid fa-pen-to-square icon-large icon-colour mb-3"></i>
+        <h1 class="h3 mb-3 fw-normal"><%= title %></h1>
+      </header>
+      <form method="post" action="/edit-post">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="title" id="floatingTitle" placeholder="title" value="<%= postTitle %>">
+        <label for="floatingTitle">Title</label>
+      </div>
+      <div class="form-floating mb-3">
+        <textarea class="form-control" name="description" id="floatingTextarea" rows="4" placeholder="description"><%= postDescription %></textarea>
+        <label for="floatingTextarea" class="form-label">Description</label>
+      </div>
+      <input type="hidden" name="_id" value="<%= _id %>" />
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Save changes</button>
+    </form>
+     
+    </main>
+    <%- include('../partials/footer'); %>

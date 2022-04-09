@@ -105,7 +105,7 @@ router.post('/login', validator('login'), (req, res, next) => {
             res.cookie('jwttoken', token, options);
             router.page = { 
               title: 'Successful login', 
-              content: `${username}, you are now logged in. You can <a href="/add-post">Add</a>, <a href="/view-posts">View</a>, and Delete posts. You can also <a href="/customer/${customer._id}">view your details</a>`,
+              content: `${username}, you are now logged in. You can <a href="/add-post">Add</a>, <a href="/view-posts">View</a>, Edit and Delete posts. You can also <a href="/customer/${customer._id}">view your details</a>`,
               json: false
             };
             res.redirect('/info');
@@ -165,7 +165,7 @@ router.get('/customer/:customerId', (req, res, next) => {
 });
 
 // Add a post form
-router.get('/add-post', verifyToken, (req, res) => {
+router.get('/add-post', verifyToken, (req, res, next) => {
   try {
     if (req.username) {
       res.status(200).render('pages/add-post', { title: 'Add Post' });
@@ -191,6 +191,66 @@ router.post('/add-post', validator('post'), verifyToken, async (req, res, next) 
         router.page = { 
           title: 'Post saved', 
           content: `The post named "${title}" has been saved to your account`,
+          json: false
+        };
+        res.redirect('/info');
+      } catch (error) {
+        return next(error);
+      }
+    }
+  } catch (error) {
+    error.statusCode = statusCode.unauthorized;
+    return next(error);
+  }
+});
+
+// Edit a post
+router.get('/edit-post/:_id', verifyToken, async (req, res) => {
+  const { _id } = req.params;
+  try {
+    const postExists = await Post.countDocuments({ _id });
+    if (_id && postExists) {
+      try {
+        Post.findOne({ _id })
+        .then(post => {
+          if (!post) {
+            const error = {
+              message: `Post entitled "${post.title}" not found`,
+              statusCode: statusCode.notFound,
+              json: true
+            }
+            return next(error);
+          }
+          res.status(200).render('pages/edit-post', { 
+            _id,
+            title: 'Edit Post',
+            postTitle: post.title, 
+            postDescription: post.description
+          });
+        })
+        .catch((error) => {
+          return next(error);
+        });
+      } catch (error) {
+        return next(error);
+      }
+    }
+  } catch (error) {
+    error.statusCode = statusCode.unauthorized;
+    return next(error);
+  }
+});
+
+// Edit a post result
+router.post('/edit-post', validator('post'), verifyToken, async (req, res, next) => {
+  const { _id, title, description } = req.body;
+  try {
+    if (req.username) {
+      try {
+        const response = await Post.updateOne({ _id }, { $set: { title, description }});
+        router.page = { 
+          title: 'Post updated', 
+          content: `The post entitled "${title}" has been updated`,
           json: false
         };
         res.redirect('/info');
