@@ -1,12 +1,12 @@
 # Notes
 
 ### Todo
-- when registering, on success try to log out the previous user and log in new user. Go to login page and pre fill the fields
 - for /posts/:title endpoint, use _id instead of title 
 
 ### Done
 - allow users to edit posts
 - Login / Logout link toggle in nav
+- when registering, on success try to log out the previous user and log in new user. Go to login page and pre fill the fields
 - Create registration and login for users
 - Each user has a customerId which maps to the posts collection
 - Logged-in customers can only see their own posts
