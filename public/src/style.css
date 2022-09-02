@@ -6,6 +6,10 @@ header > h1.fw-normal {
   font-weight: 700 !important;
 }
 
+.main-container {
+  max-width: 800px;
+}
+
 .posts-container {
   overflow-y: auto;
   max-height: 60vh;
