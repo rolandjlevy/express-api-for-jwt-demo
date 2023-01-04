@@ -10,6 +10,7 @@
 - [Live demo](https://express-blogging-app-login-with-jwt.rolandjlevy.repl.co/)
 - [Source code](https://replit.com/@RolandJLevy/express-blogging-app-login-with-jwt)
 - [Github repo](https://github.com/rolandjlevy/express-blogging-app-login-with-jwt)
+
 ![Blogging App](https://express-blogging-app-login-with-jwt.rolandjlevy.repl.co/images/blogging-app.png)
 
 ### Node Packages Used
