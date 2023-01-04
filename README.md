@@ -6,13 +6,11 @@
 
 > Uses [bcrypt](https://www.npmjs.com/package/bcrypt) for authentication and [JSON web tokens](https://www.npmjs.com/package/jsonwebtoken) for authorization.
 
-
 ### Links
 - [Live demo](https://express-blogging-app-login-with-jwt.rolandjlevy.repl.co/)
 - [Source code](https://replit.com/@RolandJLevy/express-blogging-app-login-with-jwt)
 - [Github repo](https://github.com/rolandjlevy/express-blogging-app-login-with-jwt)
-
-![Blogging App](https://express-blogging-app-login-with-jwt.rolandjlevy.repl.co/images/blogging-app.png "Blogging App")
+![Blogging App](https://express-blogging-app-login-with-jwt.rolandjlevy.repl.co/images/blogging-app.png)
 
 ### Node Packages Used
 - express
